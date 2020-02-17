@@ -27,7 +27,7 @@ MAKEFILES   :=  $(shell find . -mindepth 2 -name Makefile)
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS	= -g -c -O2 -Wall $(MACHDEP) $(INCLUDE)
+CFLAGS	= -g -c -O2 -Wall -Werror $(MACHDEP) $(INCLUDE)
 CXXFLAGS	=	$(CFLAGS)
 
 #---------------------------------------------------------------------------------
