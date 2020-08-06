@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: DevkitPPC Make
 
 on:
   push:
@@ -14,8 +14,9 @@ jobs:
       image: pheenoh/devkitppc-gcn:latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@2.3.1
       with:
-        submodules: true
+        #token: ${{secrets.PAT_MY_TOKEN}}
+        submodules: recursive
     - name: Run Make
       run: make
