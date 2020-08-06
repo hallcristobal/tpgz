@@ -6,6 +6,7 @@
 namespace Actor {
     bool freeze_run_once;
     bool hide_run_once;
+    bool hide_blah;
 
     void freeze_actors() {
         freeze_run_once = true;
