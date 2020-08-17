@@ -3,7 +3,11 @@
 We are grateful for any contributions from the community.<br>
 Here are some ways you can help the project:
 
-## Bug Reports
+## Reporting Issues
+
+Before opening an issue, please search the [issue tracker](https://github.com/hallcristobal/tpgz/issues) to make sure your issue hasn't already been reported.
+
+### Bug Reports
 
 Please do NOT submit bug reports about odd behavior caused by using the provided utilities to break the game.
 
@@ -14,7 +18,7 @@ Include the following in your report:
 
 **Please be as detailed as possible.** It really helps.
 
-## Feature Requests
+### Feature Requests
 
 Please do NOT submit suggestions that are too subjective to be considered improvements.
 
@@ -36,7 +40,7 @@ Fork, then clone the repo:
 git clone https://github.com/your-username/tpgz.git
 ```
 
-## Project structure
+### Project structure
 
 ```
 tpgz
@@ -62,17 +66,17 @@ tpgz
     └───fonts             // raw bytes for fonts
 ```
 
-## Building
+### Building
 
 See [BUILDING](./BUILDING.md).
 
-## Linting
+### Linting
 
 There is currently no linter for the project, and style is not strictly enforced.
 To be safe, you should format according to the .clang-format located at the root of the project.
 Code that does not meet the current quality standard will be rejected.
 
-## Sending a Pull Request
+### Sending a Pull Request
 
 For non-trivial changes, you may want to open an issue with a proposal for a new feature before starting on the work.
 We don't want you to waste your efforts on a pull request that won't be accepted.
