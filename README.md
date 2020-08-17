@@ -86,19 +86,12 @@ warping menu:
 ### Known Issues
 
 ```
-- invicible enemies cheat can't be turned off once turned on
+- invincible enemies cheat can't be turned off once turned on
 - disabled bg music tool may not always disable bg music
 - loading practice files can crash in certain situations
 ```
 
 ### Planned Features
-
-- free cam
-- actor spawner
-- frame advance
-- collision viewer
-- menu font selector
-- lag counter & loading counter
 
 ```
 - free cam
