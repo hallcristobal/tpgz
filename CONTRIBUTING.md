@@ -1,6 +1,6 @@
 # Contributing
 
-We are grateful for any contributions from the community.<br>
+We are grateful for any contributions from the community.
 Here are some ways you can help the project:
 
 ## Reporting Issues
@@ -11,20 +11,16 @@ Before opening an issue, please search the [issue tracker](https://github.com/ha
 
 Please do NOT submit bug reports about odd behavior caused by using the provided utilities to break the game.
 
-Include the following in your report:
+Include the following in your report, with as much detail as possible:
 
 - Steps to reproduce the issue.
 - Expected behavior and observed behavior.
-
-**Please be as detailed as possible.** It really helps.
 
 ### Feature Requests
 
 Please do NOT submit suggestions that are too subjective to be considered improvements.
 
-**Please be as detailed as possible.**
-
-Include the following in your request:
+Include the following in your request, with as much detail as possible:
 
 - Detailed description of the proposed changes.
 - How the changes will fit in with the current design.
