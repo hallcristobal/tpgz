@@ -64,7 +64,7 @@ tpgz
 
 ### Building
 
-See [BUILDING](./BUILDING.md).
+See [BUILDING.md](./BUILDING.md).
 
 ### Linting
 
