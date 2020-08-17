@@ -2,8 +2,8 @@
 
 Twilight Princess ROM hack to practice speedrunning.
 
-- [Creating an ISO](#creating-an-iso) - How to create a practice iso.
-- [Get Started](#creating-an-iso) - How to create an iso.
+- [Creating an ISO](./docs/CreatingAnIso.md) - How to create a practice iso.
+- [Get Started](./docs/CreatingAnIso.md) - How to create an iso.
 
 ⚠️ tpgz is still in early development.<br>
 If you have questions or need help, ask in the [#tools-dev]() channel of the [TP Speedrunning Discord]().
