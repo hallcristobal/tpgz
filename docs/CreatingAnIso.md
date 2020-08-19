@@ -93,11 +93,21 @@ _(Only supports US Gamecube version for now.)_
 
 ### How do I know my ISO is correct?
 
-You need the **US Gamecube ISO (NTSC-U)**. You can confirm
+You need the US Gamecube ISO (NTSC-U).<br>
+The MD5 hash of a correct ISO is:<br>
+41deff9b1fd2831f48fbfa2dd1054e4d
 
-- How do I know I have the correct ISO? (md5sum)
+Determine the MD5 hash of your ISO with the `md5sum` command.
+If your command returns anything other than the above value, you either have the wrong ISO or your ISO was somehow modified.
+
+```
+C:\example\path>md5sum "My US Gamecube TP.iso"
+41deff9b1fd2831f48fbfa2dd1054e4d *My US Gamecube TP.iso
+```
 
 ### I get an "Unexpected Argument" error when I try to generate the ISO.
+
+_Example:_
 
 ```
 error: Found argument 'Zelda,' which wasn't expected, or isn't valid in this context
