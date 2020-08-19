@@ -1,7 +1,7 @@
 # Creating an ISO
 
 _These instructions are for Windows.
-Mac and Linux please see [BUILDING.md](./BUILDING.md)._
+Mac and Linux please see [BUILDING.md](../BUILDING.md)._
 
 ## Quick Overview
 
@@ -91,9 +91,13 @@ _(Only supports US Gamecube version for now.)_
 
 ## Troubleshooting
 
+### How do I know my ISO is correct?
+
+You need the **US Gamecube ISO (NTSC-U)**. You can confirm
+
 - How do I know I have the correct ISO? (md5sum)
 
-### I get an Unexpected Argument error when I try to generate the ISO.
+### I get an "Unexpected Argument" error when I try to generate the ISO.
 
 ```
 error: Found argument 'Zelda,' which wasn't expected, or isn't valid in this context
