@@ -4,59 +4,58 @@
 
 1.  Clone the repo with `git clone https://github.com/hallcristobal/tpgz.git`
 
-2.  Run `git submodule update --init --recursive` in the root `tpgz` folder.<br>
+3)  In the root `tpgz` folder, run:
 
-3.  Copy your NTSC-U Twilight Princess ISO to the root `tpgz` folder, and rename it to `gz2e01.iso`.
+    ```
+    git submodule update --init --recursive
+    ```
 
-        - You can choose not copy or rename it if you would prefer, just make sure that the lines in
-        Romhack.toml match the iso path.
-        ```Toml
-        # ...
-        [src]
-        iso = "<iso-path/file-name>"
-        # ...
-        ```
+4)  Copy your NTSC-U Twilight Princess ISO to the root `tpgz` folder, then rename it to `gz2e01.iso`.
 
-4.  Install devkitpro.
+5)  Install devkitpro.
 
     - Windows: Download [here](https://github.com/devkitPro/installer/releases)
     - MacOS/Linux: Read [this guide](https://devkitpro.org/wiki/Getting_Started)
 
-5.  Download [Romhack-Compiler](https://github.com/hallcristobal/romhack-compiler/releases).<br>
-    This is used to add the compiled code into the ISO.
+6)  Download [Romhack-Compiler](https://github.com/hallcristobal/romhack-compiler/releases).
+    This is used to add our compiled code into the ISO.<br>
+    _(It is recommended that you add romhack.exe to your PATH.)_
 
-6.  Run `make` in the root `tpgz` folder.
+7)  Run `make` in the root `tpgz` folder to compile the code.
 
-7.  After the build succeeds, run:
+8)  Run `romhack build --raw` to create a new ISO with our changes applied.<br>
+    The new ISO is located at `build/tpgz.iso`.
 
-    ```
-    romhack build --raw
-    ```
+## Using Patches
 
-8.  The built ISO will now be in a build/ folder in the same directory as the source code.
+Patch files are a convenient way to share your changes with others.
 
-## Creating Patches
+- To create a patch, run:
 
-If you'd like to create a patch file for sharing you can with:
+  ```
+  romhack build --raw --patch
+  ```
 
-```
-romhack build --raw --patch
-```
+  The new patch file is located at `build/tpgz.patch`.
 
----
+- To apply a patch, run:
 
-If you want to compile alternative fonts:
+  ```
+  romhack apply <example.patch> <ntsc-u-input.iso> <output.iso>
+  ```
 
-1. Place your font in external/fonts/fonts/
+  Your patched ISO will be named \<output.iso>.
 
-2. Replace the following command in the Makefile
+## Fonts
 
-```rust
-cargo run -I fonts/your_font.ttf -S 18.0 -N Your_Font_Name -O build
-```
+To compile alternative fonts:
 
-3. Run
+1. Place your font in `external/fonts/fonts/`
 
-```
-make font
-```
+2. Replace the following command in the Makefile:
+
+   ```rust
+   cargo run -I fonts/your_font.ttf -S 18.0 -N Your_Font_Name -O build
+   ```
+
+3. Run `make font`
