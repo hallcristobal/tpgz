@@ -2,7 +2,11 @@
 
 # <div style="display:flex;align-items:center;"><img src="./res/icons/icon.jpg" style="width:36px;height:36px;"/><span>&nbsp;tpgz</span></div>
 
-# <div style="display:flex;align-items:center;"><img src="./res/icons/icon.jpg" style="width:36px;height:36px;"/>&nbsp;tpgz</div>
+```html
+<h1 style="display:flex;align-items:center;">
+  <img src="./res/icons/icon.jpg" style="width:36px;height:36px;" />&nbsp;tpgz
+</h1>
+```
 
 Twilight Princess ROM hack to practice speedrunning.
 
