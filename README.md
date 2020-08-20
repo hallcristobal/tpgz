@@ -106,8 +106,8 @@ warping menu:
 
 ## Contributing
 
-We'd love for you to help out! See [CONTRIBUTING.md](./CONTRIBUTING.md) for how to get started.
+We'd love for you to help out on `tpgz`! See [CONTRIBUTING.md](./CONTRIBUTING.md) for how to get started.
 
 ## Building
 
-Tired of waiting for the next release? See [BUILDING.md](./BUILDING.md).
+Tired of waiting for the next release? See [BUILDING.md](./BUILDING.md) to learn how to create local builds.

@@ -1,10 +1,12 @@
+# Building
+
 ## Compiling
 
-1.  Clone this repo and do a `git submodule update --init --recursive` to pull down the correct
-    TP Bindings.
+1.  Clone the repo with `git clone https://github.com/hallcristobal/tpgz.git`
 
-2.  Copy your copy of Twilight Princess (Currently only NTSC-U) to the root folder
-    for this project, and rename it to `gz2e01.iso`.
+2.  Run `git submodule update --init --recursive` in the root `tpgz` folder.<br>
+
+3.  Copy your NTSC-U Twilight Princess ISO to the root `tpgz` folder, and rename it to `gz2e01.iso`.
 
         - You can choose not copy or rename it if you would prefer, just make sure that the lines in
         Romhack.toml match the iso path.
@@ -15,27 +17,31 @@
         # ...
         ```
 
-3.  Install devkitpro
+4.  Install devkitpro.
 
     - Windows: Download [here](https://github.com/devkitPro/installer/releases)
     - MacOS/Linux: Read [this guide](https://devkitpro.org/wiki/Getting_Started)
 
-4.  Download the Romhack-Compiler tool [here](https://github.com/hallcristobal/romhack-compiler/releases).
-    This will be used for adding the compiled source code into the ISO.
+5.  Download [Romhack-Compiler](https://github.com/hallcristobal/romhack-compiler/releases).<br>
+    This is used to add the compiled code into the ISO.
 
-5.  Browse to the directory where you cloned your code and run:
+6.  Run `make` in the root `tpgz` folder.
+
+7.  After the build succeeds, run:
+
+    ```
+    romhack build --raw
+    ```
+
+8.  The built ISO will now be in a build/ folder in the same directory as the source code.
+
+## Creating Patches
+
+If you'd like to create a patch file for sharing you can with:
 
 ```
-make
+romhack build --raw --patch
 ```
-
-6. After the build succeeds, run:
-
-```
-romhack build --raw
-```
-
-7. The built ISO will now be in a build/ folder in the same directory as the source code.
 
 ---
 
@@ -53,12 +59,4 @@ cargo run -I fonts/your_font.ttf -S 18.0 -N Your_Font_Name -O build
 
 ```
 make font
-```
-
----
-
-If you'd like to create a patch file for sharing you can with:
-
-```
-romhack build --raw --patch
 ```
