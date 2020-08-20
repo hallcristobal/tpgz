@@ -135,7 +135,7 @@ romhack.exe apply tpgz-v0.1a.patch Twilight Princess (USA).iso output.iso
                  [1]               [2]     [3]      [4]       [5]
 ```
 
-### The practice ISO starts with Nintendont, but my Gamecube controller doesn't work.
+### The practice ISO loads using Nintendont, but my Gamecube controller doesn't work.
 
 1. Start Nintendont.
 2. Choose SD or USB as appropriate.
