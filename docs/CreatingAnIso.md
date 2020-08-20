@@ -134,3 +134,11 @@ romhack.exe apply tpgz-v0.1a.patch Twilight Princess (USA).iso output.iso
                   ^                 ^       ^        ^         ^
                  [1]               [2]     [3]      [4]       [5]
 ```
+
+### The practice ISO starts with Nintendont, but my Gamecube controller doesn't work.
+
+1. Start Nintendont.
+2. Choose SD or USB as appropriate.
+3. Press `B` to open Settings.
+4. Set "Native Control" to "On".<br>
+   _(Native Control is located in the left column near the bottom of the screen. It is separated from the other items.)_
