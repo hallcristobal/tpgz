@@ -1,7 +1,3 @@
-# <img src="./res/icons/icon.jpg" height="36" width="36" align="top" style="padding-top:3px;"/> tpgz
-
-# <img src="./res/icons/icon.jpg" height="36" width="36" align="top" style="padding-top:3px;"/> tpgz
-
 # <a href="http://tehurn.com/tp" target="_blank" rel="noopener noreferrer"><img src="./res/icons/icon.jpg" height="36" width="36" align="top" style="padding-top:3px;"/></a> tpgz
 
 Twilight Princess ROM hack to practice speedrunning.
