@@ -2,11 +2,7 @@
 
 # <img src="./res/icons/icon.jpg" height="36" width="36" align="top" style="padding-top:3px;"/> tpgz
 
-# <a href="http://tehurn.com/tp"><img src="./res/icons/icon.jpg" height="36" width="36" align="top" style="padding-top:3px;"/></a> tpgz
-
-# <div style="display:flex;align-items:center;"><img src="./res/icons/icon.jpg" style="width:36px;height:36px;"/><span>&nbsp;tpgz</span></div>
-
-<h1 style="display:flex;align-items:center;"><img src="./res/icons/icon.jpg" style="width:36px;height:36px;" />&nbsp;tpgz</h1>
+# <a href="http://tehurn.com/tp" target="_blank" rel="noopener noreferrer"><img src="./res/icons/icon.jpg" height="36" width="36" align="top" style="padding-top:3px;"/></a> tpgz
 
 Twilight Princess ROM hack to practice speedrunning.
 
