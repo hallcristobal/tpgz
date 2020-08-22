@@ -129,24 +129,23 @@ struct ItemLookup {
 // pause menu
 enum PauseIndex {
     ORDON_SWORD_INDEX,
-	MASTER_SWORD_INDEX,
-	WOOD_SHIELD_INDEX,
-	HYLIAN_SHIELD_INDEX,
-	HERO_TUNIC_INDEX,
-	ZORA_ARMOR_INDEX,
-	MAGIC_ARMOR_INDEX,
-	BOMB_CAPACITY_INDEX,
-	WALLET_INDEX,
-	ARROW_CAPACITY_INDEX,
-	ENDING_BLOW_INDEX,
-	SHIELD_BASH_INDEX,
-	BACKSLICE_INDEX,
-	HELM_SPLITTER_INDEX,
-	MORTAL_DRAW_INDEX,
-	JUMP_STRIKE_INDEX,
-	GREAT_SPIN_INDEX
+    MASTER_SWORD_INDEX,
+    WOOD_SHIELD_INDEX,
+    HYLIAN_SHIELD_INDEX,
+    HERO_TUNIC_INDEX,
+    ZORA_ARMOR_INDEX,
+    MAGIC_ARMOR_INDEX,
+    BOMB_CAPACITY_INDEX,
+    WALLET_INDEX,
+    ARROW_CAPACITY_INDEX,
+    ENDING_BLOW_INDEX,
+    SHIELD_BASH_INDEX,
+    BACKSLICE_INDEX,
+    HELM_SPLITTER_INDEX,
+    MORTAL_DRAW_INDEX,
+    JUMP_STRIKE_INDEX,
+    GREAT_SPIN_INDEX
 };
-
 
 extern bool pause_visible;
 
@@ -196,7 +195,12 @@ struct MemoryWatch {
 extern MemoryWatch Watches[MAX_WATCHES];
 
 // flags
-enum FlagsIndex {
+#define GENERAL_FLAGS_INDEX 0
+#define DUNGEON_FLAGS_INDEX 1
+#define PORTAL_FLAGS_INDEX 2
+extern bool flags_menu_visible;
+
+enum GeneralFlagsIndex {
     BOSS_FLAG_INDEX,
     RUPEE_CS_FLAG_INDEX,
     EPONA_STOLEN_INDEX,
@@ -209,7 +213,37 @@ enum FlagsIndex {
     TRANSFORM_WARP_INDEX,
     WOLF_SENSE_INDEX
 };
-extern bool flags_menu_visible;
+
+extern bool general_flags_visible;
+
+enum DungeonFlagsIndex {
+	MAP_FLAG_INDEX,
+	COMPASS_FLAG_INDEX,
+   BOSS_KEY_FLAG_INDEX,
+	SMALL_KEY_FLAG_INDEX
+};
+
+extern bool dungeon_flags_visible;
+
+enum PortalFlagsIndex {
+	SPRING_WARP_INDEX,
+	S_FARON_WARP_INDEX,
+	N_FARON_WARP_INDEX,
+	GROVE_WARP_INDEX,
+	GORGE_WARP_INDEX,
+	KAKARIKO_WARP_INDEX,
+	MOUNTAIN_WARP_INDEX,
+	BRIDGE_WARP_INDEX,
+	TOWN_WARP_INDEX,
+	LAKE_WARP_INDEX,
+	DOMAIN_WARP_INDEX,
+	UZR_WARP_INDEX,
+	SNOWPEAK_WARP_INDEX,
+	MESA_WARP_INDEX,
+	MIRROR_WARP_INDEX
+};
+
+extern bool portal_flags_visible;
 
 // practice
 #define ANY_INDEX 0
@@ -521,6 +555,21 @@ class FlagsMenu : public Menu {
     FlagsMenu() : Menu() {}
     static void render(Font& font);
 };
+class GeneralFlagsMenu : public Menu {
+   public:
+    GeneralFlagsMenu() : Menu() {}
+    static void render(Font& font);
+};
+class DungeonFlagsMenu : public Menu {
+   public:
+    DungeonFlagsMenu() : Menu() {}
+    static void render(Font& font);
+};
+class PortalFlagsMenu : public Menu {
+   public:
+    PortalFlagsMenu() : Menu() {}
+    static void render(Font& font);
+};
 
 class PracticeMenu : public Menu {
    public:
@@ -558,7 +607,7 @@ class ToolsMenu : public Menu {
     static void render(Font& font);
 };
 
-#define MAX_MENU_RENDER_FLAGS 14
+#define MAX_MENU_RENDER_FLAGS 17
 
 struct MenuRenderFlag {
     bool* activation_flag;
@@ -572,6 +621,9 @@ MenuRenderFlag MenuRenderFlags[MAX_MENU_RENDER_FLAGS] = {
     {&warping_visible, WarpingMenu::render},
     {&memory_visible, MemoryMenu::render},
     {&flags_menu_visible, FlagsMenu::render},
+    {&general_flags_visible, GeneralFlagsMenu::render},
+    {&dungeon_flags_visible, DungeonFlagsMenu::render},
+    {&portal_flags_visible, PortalFlagsMenu::render},
     {&prac_visible, PracticeMenu::render},
     {&cheats_visible, CheatsMenu::render},
     {&scene_menu_visible, SceneMenu::render},
