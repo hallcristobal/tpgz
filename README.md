@@ -24,10 +24,16 @@ cheats menu:
 - invincible                    // Makes Link invincible (no hurtbox, but can still take fall damage and drown)
 - invincible enemies*           // Makes some enemies invincible (infinite health)
 - moon jump                     // Hold R+A to moon jump
+- door storage                  // Toggle door storage collision
 - super clawshot (TBD)          // Clawshot is long and can grab most things (not implemented yet)
 - super spinner (TBD)           // Spinner is very fast and can hover (not implemented yet)
 
 flags menu:
+- general flags                 // Can toggle various general flags
+- dungeon flags                 // Can toggle various dungeon flags
+- portal flags                  // Can toggle warp portal flags
+
+general flags menu:
 - boss flag                     // Set the boss flag value. Press A to lock the value
 - epona stolen                  // Toggle flag for Epona being stolen
 - epona tamed                   // Toggle flag for Epona being tamed
@@ -39,9 +45,16 @@ flags menu:
 - transform/warp                // Toggle flag for transforming/warping
 - wolf sense                    // Toggle flag for having wolf sense
 
+dungeon flags menu:
+- have map                      // Toggle dungeon map for current dungeon
+- have compass                  // Toggle compass for current dungeon
+- have boss key                 // Toggle boss key for current dungeon
+- have small keys               // Toggle small keys for current dungeon
+
 inventory menu:
 - item wheel                    // Can set the 24 item wheel slots to any item
-- pause menu (TBD)              // Can modify the pause menu collection (not implemented yet)
+- pause menu                    // Can modify the pause menu collection
+- amounts menu                  // Can modify ammo / collectible amounts
 
 memory menu:
 - Add memory watches to the screen

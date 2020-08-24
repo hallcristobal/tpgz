@@ -56,9 +56,9 @@ extern "C" uint32_t read_controller() {
     Cheats::apply_cheats();
     if (mm_visible || prac_visible || settings_visible || cheats_visible ||
         tools_visible || inventory_visible || item_wheel_visible || pause_visible ||
-        memory_visible || warping_visible || flags_menu_visible ||
+        amounts_visible || memory_visible || warping_visible || flags_menu_visible ||
         scene_menu_visible || any_saves_visible || hundo_saves_visible || general_flags_visible ||
-		 dungeon_flags_visible || portal_flags_visible) {
+		dungeon_flags_visible || portal_flags_visible) {
         current_input = Controller::get_current_inputs();
         a_held = a_held_last_frame && current_input == 0x0100;
         a_held_last_frame = current_input == 0x0100;

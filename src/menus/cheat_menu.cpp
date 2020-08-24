@@ -16,6 +16,7 @@
 static Cursor cursor = {0,0};
 bool init_once = false;
 bool cheats_visible;
+bool chest_collision = false;
 using namespace Cheats;
 
 Cheat CheatItems[CHEAT_AMNT] = {
@@ -110,6 +111,7 @@ namespace Cheats {
                         if (tp_gameInfo.link_collision_ptr != nullptr) {
                             tp_gameInfo.link_collision_ptr->chest_collision = 0xE4;
                             tp_gameInfo.link_collision_ptr->door_collision = 0x40;
+                            chest_collision = true;
                         }
                         break;
 					}
@@ -131,6 +133,14 @@ namespace Cheats {
                         tp_clawshot.extension_rate = 2000.0f;
                         tp_clawshot.retraction_rate = 150.0f;
                         tp_clawshot.pull_rate = 60.0f;
+                        break;
+                    }
+                    case DoorStorage: {
+                        if (tp_gameInfo.link_collision_ptr != nullptr && chest_collision == true) {
+                            tp_gameInfo.link_collision_ptr->chest_collision = 0xE0;
+                            tp_gameInfo.link_collision_ptr->door_collision = 0x20;
+                            chest_collision = false;
+                        }
                         break;
                     }
                     default: {}

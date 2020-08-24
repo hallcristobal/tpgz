@@ -23,6 +23,7 @@ extern bool mm_visible;
 // inventory
 #define ITEM_WHEEL_INDEX 0
 #define PAUSE_MENU_INDEX 1
+#define AMOUNTS_MENU_INDEX 2
 extern bool inventory_visible;
 
 // item wheel
@@ -149,6 +150,20 @@ enum PauseIndex {
 
 extern bool pause_visible;
 
+// amounts menu
+enum AmountsIndex {
+    ARROW_AMMO_INDEX,
+    BOMB_BAG_1_AMMO_INDEX,
+    BOMB_BAG_2_AMMO_INDEX,
+    BOMB_BAG_3_AMMO_INDEX,
+    SLINGSHOT_AMMO_INDEX,
+    HEART_PIECE_COUNT_INDEX,
+    POE_COUNT_INDEX,
+    RUPEE_COUNT_INDEX
+};
+
+extern bool amounts_visible;
+
 // cheats
 extern bool cheats_visible;
 
@@ -219,7 +234,7 @@ extern bool general_flags_visible;
 enum DungeonFlagsIndex {
 	MAP_FLAG_INDEX,
 	COMPASS_FLAG_INDEX,
-   BOSS_KEY_FLAG_INDEX,
+    BOSS_KEY_FLAG_INDEX,
 	SMALL_KEY_FLAG_INDEX
 };
 
@@ -533,6 +548,12 @@ class ItemWheelMenu : public Menu {
     static void render(Font& font);
 };
 
+class AmountsMenu : public Menu {
+   public:
+    AmountsMenu() : Menu() {}
+    static void render(Font& font);
+};
+
 class CheatsMenu : public Menu {
    public:
     CheatsMenu() : Menu() {}
@@ -607,7 +628,7 @@ class ToolsMenu : public Menu {
     static void render(Font& font);
 };
 
-#define MAX_MENU_RENDER_FLAGS 17
+#define MAX_MENU_RENDER_FLAGS 18
 
 struct MenuRenderFlag {
     bool* activation_flag;
@@ -630,6 +651,7 @@ MenuRenderFlag MenuRenderFlags[MAX_MENU_RENDER_FLAGS] = {
     {&settings_visible, SettingsMenu::render},
     {&tools_visible, ToolsMenu::render},
     {&pause_visible, PauseMenu::render},
+    {&amounts_visible, AmountsMenu::render},
     {&any_saves_visible, AnySavesMenu::render},
     {&hundo_saves_visible, HundoSavesMenu::render}};
 
