@@ -24,11 +24,11 @@ static uint16_t hp_count = 0;
 static uint16_t rupee_count = 0;
 
 Line lines[LINES] = {
-	{"arrow ammo:", ARROW_AMMO_INDEX, "Amount of arrows held"},
-	{"bomb bag 1 ammo:", BOMB_BAG_1_AMMO_INDEX, "Amount of bombs in bag 1"},
-	{"bomb bag 2 ammo:", BOMB_BAG_2_AMMO_INDEX, "Amount of bombs in bag 2"},
-	{"bomb bag 3 ammo:", BOMB_BAG_3_AMMO_INDEX, "Amount of bombs in bag 3"},
-	{"slingshot ammo:", SLINGSHOT_AMMO_INDEX, "Amount of slingshot pellets held"},
+    {"arrow ammo:", ARROW_AMMO_INDEX, "Amount of arrows held"},
+    {"bomb bag 1 ammo:", BOMB_BAG_1_AMMO_INDEX, "Amount of bombs in bag 1"},
+    {"bomb bag 2 ammo:", BOMB_BAG_2_AMMO_INDEX, "Amount of bombs in bag 2"},
+    {"bomb bag 3 ammo:", BOMB_BAG_3_AMMO_INDEX, "Amount of bombs in bag 3"},
+    {"slingshot ammo:", SLINGSHOT_AMMO_INDEX, "Amount of slingshot pellets held"},
     {"heart pieces:", HEART_PIECE_COUNT_INDEX, "Amount of heart pieces collected"},
     {"poes:", POE_COUNT_INDEX, "Amount of poes collected"},
     {"rupees:", RUPEE_COUNT_INDEX, "Current rupee count"}};

@@ -28,9 +28,9 @@ cheats menu:
 - super spinner (TBD)           // Spinner is very fast and can hover (not implemented yet)
 
 flags menu:
-- general flags                 // Can toggle various general flags
-- dungeon flags                 // Can toggle various dungeon flags
-- portal flags                  // Can toggle warp portal flags
+- general flags                 // Toggle various general flags
+- dungeon flags                 // Toggle various dungeon flags
+- portal flags                  // Toggle warp portal flags
 
 general flags menu:
 - boss flag                     // Set the boss flag value. Press A to lock the value
@@ -49,11 +49,14 @@ dungeon flags menu:
 - have compass                  // Toggle compass for current dungeon
 - have boss key                 // Toggle boss key for current dungeon
 - have small keys               // Toggle small keys for current dungeon
+- miniboss dead                 // Toggle miniboss defeated state
+- boss dead                     // Toggle boss defeated state
+- clear flags*                  // Clear all dungeon flags
 
 inventory menu:
-- item wheel                    // Can set the 24 item wheel slots to any item
-- pause menu                    // Can modify the pause menu collection
-- amounts menu                  // Can modify ammo / collectible amounts
+- item wheel                    // Set the 24 item wheel slots to any item
+- pause menu                    // Modify the pause menu collection
+- amounts menu                  // Modify ammo / collectible amounts
 
 memory menu:
 - Add memory watches to the screen
@@ -101,6 +104,7 @@ warping menu:
 - invincible enemies cheat can't be turned off once turned on
 - disabled bg music tool may not always disable bg music
 - loading practice files can crash in certain situations
+- clear dungeon flags only works when not in the selected dungeon
 ```
 
 ### Planned Features

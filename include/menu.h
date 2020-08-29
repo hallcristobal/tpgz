@@ -232,30 +232,34 @@ enum GeneralFlagsIndex {
 extern bool general_flags_visible;
 
 enum DungeonFlagsIndex {
-	MAP_FLAG_INDEX,
-	COMPASS_FLAG_INDEX,
+    SELECT_DUNGEON_INDEX,
+    MAP_FLAG_INDEX,
+    COMPASS_FLAG_INDEX,
     BOSS_KEY_FLAG_INDEX,
-	SMALL_KEY_FLAG_INDEX
+    SMALL_KEY_FLAG_INDEX,
+    DEFEAT_MINIBOSS_FLAG_INDEX,
+    DEFEAT_BOSS_FLAG_INDEX,
+    CLEAR_DUNGEON_FLAGS_INDEX
 };
 
 extern bool dungeon_flags_visible;
 
 enum PortalFlagsIndex {
-	SPRING_WARP_INDEX,
-	S_FARON_WARP_INDEX,
-	N_FARON_WARP_INDEX,
-	GROVE_WARP_INDEX,
-	GORGE_WARP_INDEX,
-	KAKARIKO_WARP_INDEX,
-	MOUNTAIN_WARP_INDEX,
-	BRIDGE_WARP_INDEX,
-	TOWN_WARP_INDEX,
-	LAKE_WARP_INDEX,
-	DOMAIN_WARP_INDEX,
-	UZR_WARP_INDEX,
-	SNOWPEAK_WARP_INDEX,
-	MESA_WARP_INDEX,
-	MIRROR_WARP_INDEX
+    SPRING_WARP_INDEX,
+    S_FARON_WARP_INDEX,
+    N_FARON_WARP_INDEX,
+    GROVE_WARP_INDEX,
+    GORGE_WARP_INDEX,
+    KAKARIKO_WARP_INDEX,
+    MOUNTAIN_WARP_INDEX,
+    BRIDGE_WARP_INDEX,
+    TOWN_WARP_INDEX,
+    LAKE_WARP_INDEX,
+    DOMAIN_WARP_INDEX,
+    UZR_WARP_INDEX,
+    SNOWPEAK_WARP_INDEX,
+    MESA_WARP_INDEX,
+    MIRROR_WARP_INDEX
 };
 
 extern bool portal_flags_visible;
@@ -670,5 +674,19 @@ namespace MenuRendering {
                 *MenuRenderFlags[i].activation_flag = false;
             }
         }
+    }
+
+    bool is_menu_open() {
+        int menus_open = 0;
+        for (int i = 0; i < MAX_MENU_RENDER_FLAGS; i++) {
+            if (*MenuRenderFlags[i].activation_flag) {
+                menus_open++;
+            }
+        }
+        if (menus_open > 0) {
+            return true;
+        } else {
+            return false;
+		}
     }
 };  // namespace MenuRendering
