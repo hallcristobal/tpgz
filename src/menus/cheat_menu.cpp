@@ -11,6 +11,7 @@
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
 #include <string.h>
+
 #define LINES CHEAT_AMNT
 
 static Cursor cursor = {0,0};

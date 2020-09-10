@@ -4,7 +4,7 @@
 #include "input_viewer.h"
 #include "cheats.h"
 #include <string.h>
-#define CURSOR_RGBA 0x00CC00FF
+#define CURSOR_RGBA cursor_rgba
 
 // main menu
 enum MainMenuIndex {
@@ -414,7 +414,7 @@ extern bool hundo_saves_visible;
 
 // scene
 extern bool scene_menu_visible;
-#define SCENE_AMNT 8
+#define SCENE_AMNT 9
 namespace Scene {
     enum SceneIndex {
         DISABLE_BG_INDEX,
@@ -423,6 +423,7 @@ namespace Scene {
         FREEZE_CAMERA_INDEX,
         HIDE_ACTOR_INDEX,
         HIDE_HUD_INDEX,
+		FREEZE_TIME_INDEX,
         TIME_HOURS_INDEX,
         TIME_MINUTES_INDEX
     };
@@ -435,7 +436,7 @@ namespace Scene {
 extern Scene::SceneItem SceneItems[SCENE_AMNT];
 
 // tools
-#define TOOL_AMNT 11
+#define TOOL_AMNT 14
 namespace Tools {
     enum ToolsIndex {
         RELOAD_AREA_INDEX,
@@ -448,7 +449,10 @@ namespace Tools {
         ROLL_INDEX,
         TELEPORT_INDEX,
         TIMER_INDEX,
-        TUNIC_COLOR_INDEX,
+		LOAD_TIMER_INDEX,
+		IGT_TIMER_INDEX,
+		FREE_CAM_INDEX,
+        TUNIC_COLOR_INDEX
     };
 
     struct Tool {
@@ -490,14 +494,42 @@ enum SettingsIndex {
     DROP_SHADOWS_INDEX,
     SAVE_CARD_INDEX,
     LOAD_CARD_INDEX,
-    AREA_RELOAD_BEHAVIOR_INDEX
+    AREA_RELOAD_BEHAVIOR_INDEX,
+	CURSOR_COLOR_INDEX,
+	POS_SETTINGS_MENU_INDEX
 };
 extern bool settings_visible;
+extern bool pos_settings_visible;
 extern bool g_drop_shadows;
 extern int g_area_reload_behavior;
 extern bool g_autoload_card;
+extern int g_cursor_color;
+extern bool g_cursor_color_flag;
+extern int cursor_rgba;
 #define LOAD_AREA 0
 #define LOAD_FILE 1
+
+enum cursor_colors {
+	CURSOR_GREEN,
+	CURSOR_BLUE,
+	CURSOR_RED,
+	CURSOR_ORANGE,
+	CURSOR_YELLOW,
+	CURSOR_PURPLE
+};
+
+extern float menu_x_offset;
+extern float menu_y_offset;
+extern float viewer_x_offset;
+extern float viewer_y_offset;
+extern float debug_info_x_offset;
+extern float debug_info_y_offset;
+extern float timer_x_offset;
+extern float timer_y_offset;
+extern float load_timer_x_offset;
+extern float load_timer_y_offset;
+extern float igt_timer_x_offset;
+extern float igt_timer_y_offset;
 
 struct SaveLayout {
     Cheats::Cheat CheatItems[CHEAT_AMNT];
@@ -626,13 +658,19 @@ class SettingsMenu : public Menu {
     static void render(Font& font);
 };
 
+class PosSettingsMenu : public Menu {
+   public:
+    PosSettingsMenu() : Menu() {}
+    static void render(Font& font);
+};
+
 class ToolsMenu : public Menu {
    public:
     ToolsMenu() : Menu() {}
     static void render(Font& font);
 };
 
-#define MAX_MENU_RENDER_FLAGS 18
+#define MAX_MENU_RENDER_FLAGS 19
 
 struct MenuRenderFlag {
     bool* activation_flag;
@@ -653,6 +691,7 @@ MenuRenderFlag MenuRenderFlags[MAX_MENU_RENDER_FLAGS] = {
     {&cheats_visible, CheatsMenu::render},
     {&scene_menu_visible, SceneMenu::render},
     {&settings_visible, SettingsMenu::render},
+    {&pos_settings_visible, PosSettingsMenu::render},
     {&tools_visible, ToolsMenu::render},
     {&pause_visible, PauseMenu::render},
     {&amounts_visible, AmountsMenu::render},
