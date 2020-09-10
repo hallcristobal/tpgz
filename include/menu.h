@@ -377,7 +377,7 @@ namespace Scene {
 extern Scene::SceneItem SceneItems[SCENE_AMNT];
 
 // tools
-#define TOOL_AMNT 11
+#define TOOL_AMNT 12
 namespace Tools {
     enum ToolsIndex {
         RELOAD_AREA_INDEX,
@@ -390,6 +390,7 @@ namespace Tools {
         ROLL_INDEX,
         TELEPORT_INDEX,
         TIMER_INDEX,
+        FREE_CAM_INDEX,
         TUNIC_COLOR_INDEX,
     };
 

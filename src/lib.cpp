@@ -9,6 +9,7 @@
 #include "gz_flags.h"
 #include "input_viewer.h"
 #include "timer.h"
+#include "free_cam.h"
 
 _FIFOQueue Queue;
 bool card_load = true;
@@ -35,6 +36,7 @@ void game_loop() {
     }
 
     GZFlags::apply_active_flags();
+    FreeCam::handle_free_cam();
 }
 
 void draw() {
