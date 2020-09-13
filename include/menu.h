@@ -117,11 +117,6 @@ enum Slot {
     SLOT_23
 };
 
-struct SlotItem {
-    enum Slot slot_id;
-    int item_id;
-};
-
 struct ItemLookup {
     enum ItemID item_id;
     char item_description[40];
@@ -490,12 +485,12 @@ extern TunicColor TunicColors[TUNIC_COLOR_AMNT];
 
 // settings
 enum SettingsIndex {
-    LOG_LEVEL_INDEX,
-    DROP_SHADOWS_INDEX,
-    SAVE_CARD_INDEX,
-    LOAD_CARD_INDEX,
     AREA_RELOAD_BEHAVIOR_INDEX,
 	CURSOR_COLOR_INDEX,
+    DROP_SHADOWS_INDEX,
+    LOG_LEVEL_INDEX,
+    // SAVE_CARD_INDEX,
+    // LOAD_CARD_INDEX,
 	POS_SETTINGS_MENU_INDEX
 };
 extern bool settings_visible;

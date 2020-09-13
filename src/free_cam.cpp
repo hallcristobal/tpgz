@@ -6,7 +6,10 @@
 #define M_PI ((double)3.141592653589793238462643383279502884e+00)
 
 #define ROTATION_SPEED (0.002)
+<<<<<<< HEAD
 #define FREECAM_SPEED (0.5)
+=======
+>>>>>>> 9e9e134507a0a077b29335bbf7a88e6ce0bc7ac9
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
@@ -44,6 +47,10 @@ namespace FreeCam {
 			double dx = tp_mPadSticks.control_y * tp_cos(yaw) * tp_cos(pitch) - tp_mPadSticks.control_x * tp_sin(yaw);
 			double dz = tp_mPadSticks.control_y * tp_sin(yaw) * tp_cos(pitch) + tp_mPadSticks.control_x * tp_cos(yaw);
 
+<<<<<<< HEAD
+=======
+			float FREECAM_SPEED = tp_mPadStatus.sval == (Controller::Pad::L) ? 2.0f : 0.5f;
+>>>>>>> 9e9e134507a0a077b29335bbf7a88e6ce0bc7ac9
 			// Apply the translation with a speed factor
 			cam_pos.x += FREECAM_SPEED * dx;
 			cam_pos.y += FREECAM_SPEED * dy;
