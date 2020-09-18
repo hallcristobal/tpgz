@@ -16,7 +16,7 @@
 
 bool iv_visible;
 GXTexObj _ivTexObj;
-uint8_t _iv_text_data[16] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
+const char _iv_text_data[1] __attribute__ ((aligned (32))) = {0xff};
 
 struct Vec2 {
     float x, y;
@@ -29,13 +29,13 @@ struct Triggers {
 namespace InputViewer {
     void init() {
         memset(&_ivTexObj, 0x0, sizeof(GXTexObj));
-        GX_InitTexObj(&_ivTexObj, (void*)_iv_text_data, 4, 4, GX_TF_I8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+        GX_InitTexObj(&_ivTexObj, (void*)_iv_text_data, 1, 1, GX_TF_I8, GX_CLAMP, GX_CLAMP, GX_FALSE);
     }
 
     void add_vertex(uint32_t color, Vec2 p) {
         GX_Position2f32(p.x, p.y);
         GX_Color1u32(color);
-        GX_TexCoord2f32(0.0f, 1.0f);
+        GX_TexCoord2f32(0.0f, 0.0f);
     }
 
     void draw_quad(uint32_t color, Vec2 p[4]) {
@@ -156,39 +156,37 @@ namespace InputViewer {
     void render(Font& font) {
         using namespace Controller;
 
+        draw_rect_outline(0x00FF7fFF, {495.f + viewer_x_offset, 420.f + viewer_y_offset}, {40.f, 40.f});
         if (button_is_down(A)) {
-            font.renderChars("A", 550.0f + viewer_x_offset, 440.0f + viewer_y_offset, 0x00CC00FF);
+            draw_rect(0x00FF7FFF, {495.f + viewer_x_offset, 420.f + viewer_y_offset}, {40.f, 40.f});
         }
 
+        draw_rect_outline(0xFF0000FF, {460.f + viewer_x_offset, 430.f + viewer_y_offset}, {13.f, 13.f});
         if (button_is_down(B)) {
-            font.renderChars("B", 535.f + viewer_x_offset, 440.0f + viewer_y_offset, 0xDC143CFF);
+            draw_rect(0xFF0000FF, {460.f + viewer_x_offset, 430.f + viewer_y_offset}, {13.f, 13.f});
         }
 
+        draw_rect_outline(0xFFFFFFFF, {525.f + viewer_x_offset, 420.f + viewer_y_offset}, {12.f, 40.f});
         if (button_is_down(X)) {
-            font.renderChars("X", 565.f + viewer_x_offset, 440.0f + viewer_y_offset, 0xFFFFFFFF);
+            draw_rect(0xFFFFFFFF, {525.f + viewer_x_offset, 420.f + viewer_y_offset}, {12.f, 40.f});
         }
 
+        draw_rect_outline(0xFFFFFFFF, {495.f + viewer_x_offset, 390.f + viewer_y_offset}, {40.f, 10.f});
         if (button_is_down(Y)) {
-            font.renderChars("Y", 550.f + viewer_x_offset, 425.0f + viewer_y_offset, 0xFFFFFFFF);
+            draw_rect(0xFFFFFFFF, {495.f + viewer_x_offset, 390.f + viewer_y_offset}, {40.f, 10.f});
         }
 
+        draw_rect_outline(0x8A2BE2FF, {525.f + viewer_x_offset, 390.f + viewer_y_offset}, {12.f, 10.f});
         if (button_is_down(Z)) {
-            font.renderChars("Z", 565.f + viewer_x_offset, 425.0f + viewer_y_offset, 0x8A2BE2FF);
+            draw_rect(0x8A2BE2FF, {525.f + viewer_x_offset, 390.f + viewer_y_offset}, {12.f, 10.f});
         }
 
+        draw_rect_outline(0xFFFFFFFF, {430.f + viewer_x_offset, 375.f + viewer_y_offset}, {10.f, 10.f});
         if (button_is_down(START)) {
-            font.renderChars("S", 500.f + viewer_x_offset, 440.0f + viewer_y_offset, 0xFFFFFFFF);
+            draw_rect(0xFFFFFFFF, {430.f + viewer_x_offset, 375.f + viewer_y_offset}, {10.f, 10.f});
         }
 
         draw_cross(0xFFFFFFFF, {430.f + viewer_x_offset, 420.f + viewer_y_offset}, 2.f);
-
-        if (button_is_down(L)) {
-            font.renderChars("L", 500.f + viewer_x_offset, 425.0f + viewer_y_offset, 0xFFFFFFFF);
-        }
-
-        if (button_is_down(R)) {
-            font.renderChars("R", 515.f + viewer_x_offset, 425.0f + viewer_y_offset, 0xFFFFFFFF);
-        }
 
 		// stick inputs
         char control_x[5];  // control stick x
@@ -211,5 +209,12 @@ namespace InputViewer {
         draw_stick_outline(0xFFD138FF, {385.0f + viewer_x_offset, 405.0f + viewer_y_offset}, 36.0f);
         draw_stick(0xFFFFFFFF, {320.0f + tp_mPadAStick.x * 15 + viewer_x_offset, 405.0f - tp_mPadAStick.y * 15 + viewer_y_offset}, 30.0f);
         draw_stick(0xFFD138FF, {385.0f + tp_mPadACStick.x * 12 + viewer_x_offset, 405.0f - tp_mPadACStick.y * 12 + viewer_y_offset}, 24.0f);
+
+        // Analog triggers
+        draw_rect_outline(0xFFFFFFFF, {320.0f + viewer_x_offset, 375.f + viewer_y_offset}, {45.f, 7.f});
+        draw_rect(button_is_down(L) ? 0x00FF00FF : 0xFFFFFFFF, {320.0f - 45.f * (1 - tp_mPadTriggers.l) / 2 + viewer_x_offset, 375.f + viewer_y_offset}, {45.f * tp_mPadTriggers.l, 7.f});
+
+        draw_rect_outline(0xFFFFFFFF, {385.0f + viewer_x_offset, 375.f + viewer_y_offset}, {45.f, 7.f});
+        draw_rect(button_is_down(R) ? 0x00FF00FF : 0xFFFFFFFF, {385.0f + 45.f * (1 - tp_mPadTriggers.r) / 2 + viewer_x_offset, 375.f + viewer_y_offset}, {45.f * tp_mPadTriggers.r, 7.f});
     }
 }  // namespace InputViewer
