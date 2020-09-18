@@ -1,19 +1,18 @@
 ﻿#include <stdio.h>
 #define GXFlush_addr 0x8035becc
 #include "libtp_c/include/tp.h"
-#include "libtp_c/include/controller.h"
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/flag.h"
 #include "controller.h"
+#include "libtp_c/include/controller.h"
 #include "font.h"
 #include "input_viewer.h"
 #include "menu.h"
 #include "gcn_c/include/gfx.h"
 
+#define tp_mPadTriggers (*(Triggers*)(0x80434430))
 #define tp_mPadAStick (*(Vec2*)(0x804344E0))
 #define tp_mPadACStick (*(Vec2*)(0x80434520))
-
-#define LINE_WIDTH 1.0f
 
 bool iv_visible;
 GXTexObj _ivTexObj;
@@ -21,6 +20,10 @@ uint8_t _iv_text_data[16] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0
 
 struct Vec2 {
     float x, y;
+};
+
+struct Triggers {
+    float l, r;
 };
 
 namespace InputViewer {
@@ -35,8 +38,9 @@ namespace InputViewer {
         GX_TexCoord2f32(0.0f, 1.0f);
     }
 
-    void display_quad(uint32_t color, Vec2 p[4]) {
-        GX_SetLineWidth(0x10, GX_TO_ZERO);
+    void draw_quad(uint32_t color, Vec2 p[4]) {
+        GX_InvalidateTexAll();
+        GX_LoadTexObj(&_ivTexObj, (uint8_t)GX_TEXMAP0);
         GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 4);
             add_vertex(color, p[0]);
             add_vertex(color, p[1]);
@@ -45,78 +49,108 @@ namespace InputViewer {
         GX_End();
     }
 
-    void display_stick(uint32_t color, Vec2 pos, float size) {
-        float s2 = size / 2;
-        Vec2 positions[4];
-        positions[0] = {pos.x - s2, pos.y};
-        positions[1] = {pos.x - s2 * 0.7071f, pos.y - s2 * 0.7071f};
-        positions[2] = {pos.x, pos.y - s2};
-        positions[3] = {pos.x, pos.y};
-        display_quad(color, positions);
-        positions[0] = {pos.x, pos.y - s2};
-        positions[1] = {pos.x + s2 * 0.7071f, pos.y - s2 * 0.7071f};
-        positions[2] = {pos.x + s2, pos.y};
-        positions[3] = {pos.x, pos.y};
-        display_quad(color, positions);
-        positions[0] = {pos.x + s2, pos.y};
-        positions[1] = {pos.x + s2 * 0.7071f, pos.y + s2 * 0.7071f};
-        positions[2] = {pos.x, pos.y + s2};
-        positions[3] = {pos.x, pos.y};
-        display_quad(color, positions);
-        positions[0] = {pos.x, pos.y + s2};
-        positions[1] = {pos.x - s2 * 0.7071f, pos.y + s2 * 0.7071f};
-        positions[2] = {pos.x - s2, pos.y};
-        positions[3] = {pos.x, pos.y};
-        display_quad(color, positions);
+    void draw_quad_outline(uint32_t color, Vec2 p[4]) {
+        GX_InvalidateTexAll();
+        GX_LoadTexObj(&_ivTexObj, (uint8_t)GX_TEXMAP0);
+        GX_SetLineWidth(0x10, GX_TO_ZERO);
+        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 5);
+            add_vertex(color, p[0]);
+            add_vertex(color, p[1]);
+            add_vertex(color, p[2]);
+            add_vertex(color, p[3]);
+            add_vertex(color, p[0]);
+        GX_End();
     }
 
-    void display_stick_outline(uint32_t color, Vec2 pos, float size) {
+    void draw_stick(uint32_t color, Vec2 pos, float size) {
         float s2 = size / 2;
-        float s2_line = (s2 - LINE_WIDTH);
-        Vec2 positions[4];
-        positions[0] = {pos.x - s2, pos.y};
-        positions[1] = {pos.x - s2 * 0.7071f, pos.y - s2 * 0.7071f};
-        positions[2] = {pos.x - s2_line * 0.7071f, pos.y - s2_line * 0.7071f};
-        positions[3] = {pos.x - s2_line, pos.y};
-        display_quad(color, positions);
-        positions[0] = {pos.x - s2 * 0.7071f, pos.y - s2 * 0.7071f};
-        positions[1] = {pos.x, pos.y - s2};
-        positions[2] = {pos.x, pos.y - s2_line};
-        positions[3] = {pos.x - s2_line * 0.7071f, pos.y - s2_line * 0.7071f};
-        display_quad(color, positions);
+        float dx1 = 0;
+        float dy1 = -s2;
+        float dx2 = s2 * 0.7071f;
+        float dy2 = - s2 * 0.7071f;
+        float tmp;
+        GX_InvalidateTexAll();
+        GX_LoadTexObj(&_ivTexObj, (uint8_t)GX_TEXMAP0);
+        GX_Begin(GX_TRIANGLEFAN, GX_VTXFMT0, 8);
+            for (uint8_t i = 0; i < 4; ++i) {
+                add_vertex(color, {pos.x + dx1, pos.y + dy1});
+                add_vertex(color, {pos.x + dx2, pos.y + dy2});
+                tmp = dx1;
+                dx1 = -dy1;
+                dy1 = tmp;
+                tmp = dx2;
+                dx2 = -dy2;
+                dy2 = tmp;
+            }
+        GX_End();
+    }
 
-        positions[0] = {pos.x, pos.y - s2};
-        positions[1] = {pos.x + s2 * 0.7071f, pos.y - s2 * 0.7071f};
-        positions[2] = {pos.x + s2_line * 0.7071f, pos.y - s2_line * 0.7071f};
-        positions[3] = {pos.x, pos.y - s2_line};
-        display_quad(color, positions);
-        positions[0] = {pos.x + s2 * 0.7071f, pos.y - s2 * 0.7071f};
-        positions[1] = {pos.x + s2, pos.y};
-        positions[2] = {pos.x + s2_line, pos.y};
-        positions[3] = {pos.x + s2_line * 0.7071f, pos.y - s2_line * 0.7071f};
-        display_quad(color, positions);
+    void draw_stick_outline(uint32_t color, Vec2 pos, float size) {
+        float s2 = size / 2;
+        float dx1 = 0;
+        float dy1 = -s2;
+        float dx2 = s2 * 0.7071f;
+        float dy2 = - s2 * 0.7071f;
+        float tmp;
+        GX_InvalidateTexAll();
+        GX_LoadTexObj(&_ivTexObj, (uint8_t)GX_TEXMAP0);
+        GX_SetLineWidth(0x10, GX_TO_ZERO);
+        GX_Begin(GX_LINESTRIP, GX_VTXFMT0, 9);
+            for (uint8_t i = 0; i < 4; ++i) {
+                add_vertex(color, {pos.x + dx1, pos.y + dy1});
+                add_vertex(color, {pos.x + dx2, pos.y + dy2});
+                tmp = dx1;
+                dx1 = -dy1;
+                dy1 = tmp;
+                tmp = dx2;
+                dx2 = -dy2;
+                dy2 = tmp;
+            }
+            add_vertex(color, {pos.x + dx1, pos.y + dy1});
+        GX_End();
+    }
 
-        positions[0] = {pos.x + s2, pos.y};
-        positions[1] = {pos.x + s2 * 0.7071f, pos.y + s2 * 0.7071f};
-        positions[2] = {pos.x + s2_line * 0.7071f, pos.y + s2_line * 0.7071f};
-        positions[3] = {pos.x + s2_line, pos.y};
-        display_quad(color, positions);
-        positions[0] = {pos.x + s2 * 0.7071f, pos.y + s2 * 0.7071f};
-        positions[1] = {pos.x, pos.y + s2};
-        positions[2] = {pos.x, pos.y + s2_line};
-        positions[3] = {pos.x + s2_line * 0.7071f, pos.y + s2_line * 0.7071f};
-        display_quad(color, positions);
+    void draw_rect(uint32_t color, Vec2 pos, Vec2 dim) {
+        Vec2 vertices[4] = {
+            {pos.x - dim.x / 2, pos.y - dim.y / 2},
+            {pos.x + dim.x / 2, pos.y - dim.y / 2},
+            {pos.x + dim.x / 2, pos.y + dim.y / 2},
+            {pos.x - dim.x / 2, pos.y + dim.y / 2}};
+        draw_quad(color, vertices);
+    }
 
-        positions[0] = {pos.x, pos.y + s2};
-        positions[1] = {pos.x - s2 * 0.7071f, pos.y + s2 * 0.7071f};
-        positions[2] = {pos.x - s2_line * 0.7071f, pos.y + s2_line * 0.7071f};
-        positions[3] = {pos.x, pos.y + s2_line};
-        display_quad(color, positions);
-        positions[0] = {pos.x - s2 * 0.7071f, pos.y + s2 * 0.7071f};
-        positions[1] = {pos.x - s2, pos.y};
-        positions[2] = {pos.x - s2_line, pos.y};
-        positions[3] = {pos.x - s2_line * 0.7071f, pos.y + s2_line * 0.7071f};
-        display_quad(color, positions);
+    void draw_rect_outline(uint32_t color, Vec2 pos, Vec2 dim) {
+        Vec2 vertices[4] = {
+            {pos.x - dim.x / 2, pos.y - dim.y / 2},
+            {pos.x + dim.x / 2, pos.y - dim.y / 2},
+            {pos.x + dim.x / 2, pos.y + dim.y / 2},
+            {pos.x - dim.x / 2, pos.y + dim.y / 2}};
+        draw_quad_outline(color, vertices);
+    }
+
+    void draw_cross(uint32_t color, Vec2 pos, float size) {
+        int branch_width = 4.f * size;
+        int branch_length = 5.f * size;
+        int branch_offset = (branch_width / 2 + branch_length / 2);
+        draw_rect_outline(color, {pos.x - branch_offset + viewer_x_offset, pos.y + viewer_y_offset}, {branch_length, branch_width});
+        if (Controller::button_is_down(Controller::DPAD_LEFT)) {
+            draw_rect(color, {pos.x - branch_offset + viewer_x_offset, pos.y + viewer_y_offset}, {branch_length, branch_width});
+        }
+
+        draw_rect_outline(color, {pos.x + viewer_x_offset, pos.y + branch_offset + viewer_y_offset}, {branch_width, branch_length});
+        if (Controller::button_is_down(Controller::DPAD_DOWN)) {
+            draw_rect(color, {pos.x + viewer_x_offset, pos.y + branch_offset + viewer_y_offset}, {branch_width, branch_length});
+        }
+
+        draw_rect_outline(color, {pos.x + branch_offset + viewer_x_offset, pos.y + viewer_y_offset}, {branch_length, branch_width});
+        if (Controller::button_is_down(Controller::DPAD_RIGHT)) {
+            draw_rect(color, {pos.x + branch_offset + viewer_x_offset, pos.y + viewer_y_offset}, {branch_length, branch_width});
+        }
+
+        draw_rect_outline(color, {pos.x + viewer_x_offset, pos.y - branch_offset + viewer_y_offset}, {branch_width, branch_length});
+        if (Controller::button_is_down(Controller::DPAD_UP)) {
+            draw_rect(color, {pos.x + viewer_x_offset, pos.y - branch_offset + viewer_y_offset}, {branch_width, branch_length});
+        }
     }
 
     void render(Font& font) {
@@ -146,21 +180,7 @@ namespace InputViewer {
             font.renderChars("S", 500.f + viewer_x_offset, 440.0f + viewer_y_offset, 0xFFFFFFFF);
         }
 
-        if (button_is_down(DPAD_LEFT)) {
-            font.renderChars("DL", 432.f + viewer_x_offset, 427.0f + viewer_y_offset, 0xFFFFFFFF);
-        }
-
-        if (button_is_down(DPAD_DOWN)) {
-            font.renderChars("DD", 450.f + viewer_x_offset, 440.0f + viewer_y_offset, 0xFFFFFFFF);
-        }
-
-        if (button_is_down(DPAD_RIGHT)) {
-            font.renderChars("DR", 470.f + viewer_x_offset, 427.0f + viewer_y_offset, 0xFFFFFFFF);
-        }
-
-        if (button_is_down(DPAD_UP)) {
-            font.renderChars("DU", 450.f + viewer_x_offset, 414.0f + viewer_y_offset, 0xFFFFFFFF);
-        }
+        draw_cross(0xFFFFFFFF, {430.f + viewer_x_offset, 420.f + viewer_y_offset}, 2.f);
 
         if (button_is_down(L)) {
             font.renderChars("L", 500.f + viewer_x_offset, 425.0f + viewer_y_offset, 0xFFFFFFFF);
@@ -183,18 +203,13 @@ namespace InputViewer {
 
         font.gz_renderChars(control_x, 295.0f + viewer_x_offset, 440.0f + viewer_y_offset, 0xFFFFFFFF, g_drop_shadows);
         font.gz_renderChars(control_y, 330.0f + viewer_x_offset, 440.0f + viewer_y_offset, 0xFFFFFFFF, g_drop_shadows);
-        font.gz_renderChars(c_x, 365.0f + viewer_x_offset, 440.0f + viewer_y_offset, 0xFFD138FF, g_drop_shadows);
-        font.gz_renderChars(c_y, 400.0f + viewer_x_offset, 440.0f + viewer_y_offset, 0xFFD138FF, g_drop_shadows);
+        font.gz_renderChars(c_x, 355.0f + viewer_x_offset, 440.0f + viewer_y_offset, 0xFFD138FF, g_drop_shadows);
+        font.gz_renderChars(c_y, 390.0f + viewer_x_offset, 440.0f + viewer_y_offset, 0xFFD138FF, g_drop_shadows);
 
 		// analog input viewer
-        // font.gz_renderChars(".", 313.0f + viewer_x_offset, 405.0f + viewer_y_offset, 0xFFFFFFFF, g_drop_shadows);
-        // font.gz_renderChars("o", (310.0f + viewer_x_offset) + (tp_mPadSticks.control_x * 0.20), (408.0f + viewer_y_offset) - (tp_mPadSticks.control_y * 0.20), 0xFFFFFFFF, g_drop_shadows);  // radius decreased to 20%
-        // font.gz_renderChars(".", 383.0f + viewer_x_offset, 405.0f + viewer_y_offset, 0xFFD138FF, g_drop_shadows);
-        // font.gz_renderChars("o", (380.0f + viewer_x_offset) + (tp_mPadSticks.c_x * 0.20), (408.0f + viewer_y_offset) - (tp_mPadSticks.c_y * 0.20), 0xFFD138FF, g_drop_shadows);  // radius decreased to 20%
-        GX_LoadTexObj(&_ivTexObj, (uint8_t)GX_TEXMAP0);
-        display_stick(0xFFFFFFFF, {320.0f + tp_mPadAStick.x * 15, 405.0f - tp_mPadAStick.y * 15}, 30.0f);
-        display_stick_outline(0xFFFFFFFF, {320.0f, 405.0f}, 45.0f);
-        display_stick(0xFFD138FF, {390.0f + tp_mPadACStick.x * 12, 405.0f - tp_mPadACStick.y * 12}, 24.0f);
-        display_stick_outline(0xFFD138FF, {390.0f, 405.0f}, 36.0f);
+        draw_stick_outline(0xFFFFFFFF, {320.0f + viewer_x_offset, 405.0f + viewer_y_offset}, 45.0f);
+        draw_stick_outline(0xFFD138FF, {385.0f + viewer_x_offset, 405.0f + viewer_y_offset}, 36.0f);
+        draw_stick(0xFFFFFFFF, {320.0f + tp_mPadAStick.x * 15 + viewer_x_offset, 405.0f - tp_mPadAStick.y * 15 + viewer_y_offset}, 30.0f);
+        draw_stick(0xFFD138FF, {385.0f + tp_mPadACStick.x * 12 + viewer_x_offset, 405.0f - tp_mPadACStick.y * 12 + viewer_y_offset}, 24.0f);
     }
 }  // namespace InputViewer
