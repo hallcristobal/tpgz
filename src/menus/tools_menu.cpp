@@ -10,6 +10,7 @@
 #include "commands.h"
 #include "gorge.h"
 #include "rollcheck.h"
+#include "free_cam.h"
 #define LINES TOOL_AMNT
 #define MAX_TUNIC_COLORS 7
 using namespace Tools;
@@ -45,7 +46,7 @@ Line lines[LINES] = {
     {"roll checker", ROLL_INDEX, "Frame counter for chaining rolls", true, &ToolItems[ROLL_INDEX].active},
     {"teleport", TELEPORT_INDEX, "dpadUp to set, dpadDown to load", true, &ToolItems[TELEPORT_INDEX].active},
     {"timer", TIMER_INDEX, "Frame timer: Z+A to start/stop, Z+B to reset", true, &ToolItems[TIMER_INDEX].active},
-    {"free cam", FREE_CAM_INDEX, "Control stick to move, C stick to rotate", true, &ToolItems[FREE_CAM_INDEX].active},
+    {"free cam", FREE_CAM_INDEX, "Z+A+B to activate, Stick/L/R to move, C-stick to look, Z to speed", true, &ToolItems[FREE_CAM_INDEX].active},
     {"link tunic color:   ", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false, nullptr, MAX_TUNIC_COLORS}};
 
 void ToolsMenu::render(Font& font) {
@@ -136,6 +137,11 @@ void ToolsMenu::render(Font& font) {
                     tp_zelAudio.link_debug_ptr->sand_height_lost = 0;
                     break;
                 }
+                case FREE_CAM_INDEX: {
+                    Commands::enable_command(Commands::FREE_CAM);
+                    free_cam_active = false;
+                    break;
+                }
             }
         } else {
             switch (cursor.y) {
@@ -169,6 +175,11 @@ void ToolsMenu::render(Font& font) {
                 case FAST_BONK_INDEX: {
                     tp_link_human_frontroll.bonk_recoil_anim_speed = 3.0f;
                     tp_link_human_frontroll.bonk_recovery_anim_factor = 0.800000012f;
+                    break;
+                }
+                case FREE_CAM_INDEX: {
+                    Commands::disable_command(Commands::FREE_CAM);
+                    free_cam_active = false;
                     break;
                 }
             }

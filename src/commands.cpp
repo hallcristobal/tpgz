@@ -4,6 +4,7 @@
 #include "timer.h"
 #include "gorge.h"
 #include "fs.h"
+#include "free_cam.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
@@ -17,13 +18,9 @@ namespace Commands {
     static float saved_y = 0.0f;
     static float saved_z = 0.0f;
     static uint16_t saved_angle = 0;
-    static float saved_c0 = 0.0f;
-    static float saved_c1 = 0.0f;
-    static float saved_c2 = 0.0f;
-    static float saved_c3 = 0.0f;
-    static float saved_c4 = 0.0f;
-    static float saved_c5 = 0.0f;
-    static float saved_c6 = 0.0f;
+    static Vec3 saved_target = {0.0f, 0.0f, 0.0f};
+    static Vec3 saved_pos = {0.0f, 0.0f, 0.0f};
+    static uint16_t saved_c6 = 0;
     static float saved_c7 = 0.0f;
     static int button_last_frame;
     static int button_this_frame;
@@ -33,12 +30,8 @@ namespace Commands {
         saved_y = tp_zelAudio.link_debug_ptr->position.y;
         saved_z = tp_zelAudio.link_debug_ptr->position.z;
         saved_angle = tp_zelAudio.link_debug_ptr->facing;
-        saved_c0 = tp_matrixInfo.matrix_info->camera0;
-        saved_c1 = tp_matrixInfo.matrix_info->camera1;
-        saved_c2 = tp_matrixInfo.matrix_info->camera2;
-        saved_c3 = tp_matrixInfo.matrix_info->camera3;
-        saved_c4 = tp_matrixInfo.matrix_info->camera4;
-        saved_c5 = tp_matrixInfo.matrix_info->camera5;
+        saved_target = tp_matrixInfo.matrix_info->target;
+        saved_pos = tp_matrixInfo.matrix_info->pos;
         saved_c6 = tp_matrixInfo.matrix_info->camera6;
         saved_c7 = tp_matrixInfo.matrix_info->camera7;
     }
@@ -48,12 +41,8 @@ namespace Commands {
         tp_zelAudio.link_debug_ptr->position.y = saved_y;
         tp_zelAudio.link_debug_ptr->position.z = saved_z;
         tp_zelAudio.link_debug_ptr->facing = saved_angle;
-        tp_matrixInfo.matrix_info->camera0 = saved_c0;
-        tp_matrixInfo.matrix_info->camera1 = saved_c1;
-        tp_matrixInfo.matrix_info->camera2 = saved_c2;
-        tp_matrixInfo.matrix_info->camera3 = saved_c3;
-        tp_matrixInfo.matrix_info->camera4 = saved_c4;
-        tp_matrixInfo.matrix_info->camera5 = saved_c5;
+        tp_matrixInfo.matrix_info->target = saved_target;
+        tp_matrixInfo.matrix_info->pos = saved_pos;
         tp_matrixInfo.matrix_info->camera6 = saved_c6;
         tp_matrixInfo.matrix_info->camera7 = saved_c7;
     }
@@ -97,20 +86,27 @@ namespace Commands {
         }
     }
 
+    void toggle_free_cam() {
+        if (button_this_frame == 0x0310 && button_last_frame != 0x0310) {
+            free_cam_active = !free_cam_active;
+        }
+    }
+
     struct Command {
         bool active;
         uint16_t buttons;
         void (*command)();
     };
 
-    static Command Commands[7] = {
+    static Command Commands[8] = {
         {false, 0x0028, store_position},
         {false, 0x0024, load_position},
         {false, 0x0120, moon_jump},
         {false, 0x1160, reload_area},
         {false, 0x0110, toggle_timer},
         {false, 0x0210, hit_reset},
-        {false, 0x0050, gorge_void}};
+        {false, 0x0050, gorge_void},
+        {false, 0x0310, toggle_free_cam}};
 
     void process_inputs() {
         button_this_frame = tp_mPadStatus.sval;

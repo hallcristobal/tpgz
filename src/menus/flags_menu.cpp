@@ -41,15 +41,15 @@ void FlagsMenu::render(Font& font) {
     // update flags
     boss_flag = (TP::get_boss_flags() > 0x00);
     rupee_flag = (tp_gameInfo.inventory.rupee_cs_flags & (1 << 0));
-    midna_charge = (tp_gameInfo.epona_stolen_and_midna_charge_flag & (1 << 0));
-    transform_warp = (tp_gameInfo.transform_flag & (1 << 2));
-    midna_on_z = (tp_gameInfo.midna_on_z & (1 << 4));
-    epona_stolen = (tp_gameInfo.epona_stolen_and_midna_charge_flag & (1 << 7));
-    epona_tamed = (tp_gameInfo.epona_tamed_and_map_warp_flag & (1 << 0));
-    map_warping = (tp_gameInfo.epona_tamed_and_map_warp_flag & (1 << 2));
-    midna_healthy = (tp_gameInfo.midna_state_flag & (1 << 3));
+    midna_charge = (tp_gameInfo.event_flags.epona_stolen_and_midna_charge_flag & (1 << 0));
+    transform_warp = (tp_gameInfo.event_flags.transform_flag & (1 << 2));
+    midna_on_z = (tp_gameInfo.event_flags.midna_on_z & (1 << 4));
+    epona_stolen = (tp_gameInfo.event_flags.epona_stolen_and_midna_charge_flag & (1 << 7));
+    epona_tamed = (tp_gameInfo.event_flags.epona_tamed_and_map_warp_flag & (1 << 0));
+    map_warping = (tp_gameInfo.event_flags.epona_tamed_and_map_warp_flag & (1 << 2));
+    midna_healthy = (tp_gameInfo.event_flags.midna_state_flag & (1 << 3));
     midna_on_back = (tp_gameInfo.midna_on_back_flag & (1 << 3));
-    wolf_sense = (tp_gameInfo.have_sense_flag & (1 << 3));
+    wolf_sense = (tp_gameInfo.event_flags.have_sense_flag & (1 << 3));
 
     if (button_is_pressed(Controller::B)) {
         init_once = false;
@@ -82,19 +82,19 @@ void FlagsMenu::render(Font& font) {
 		break;
             }
             case EPONA_STOLEN_INDEX: {
-                tp_gameInfo.epona_stolen_and_midna_charge_flag ^= 0x80;
+                tp_gameInfo.event_flags.epona_stolen_and_midna_charge_flag ^= 0x80;
                 break;
             }
             case EPONA_TAMED_INDEX: {
-                tp_gameInfo.epona_tamed_and_map_warp_flag ^= 0x01;
+                tp_gameInfo.event_flags.epona_tamed_and_map_warp_flag ^= 0x01;
                 break;
             }
             case MAP_WARPING_INDEX: {
-                tp_gameInfo.epona_tamed_and_map_warp_flag ^= 0x04;
+                tp_gameInfo.event_flags.epona_tamed_and_map_warp_flag ^= 0x04;
                 break;
             }
             case MIDNA_HEALTHY: {
-                tp_gameInfo.midna_state_flag ^= 0x08;
+                tp_gameInfo.event_flags.midna_state_flag ^= 0x08;
                 break;
             }
             case MIDNA_ON_BACK: {
@@ -102,20 +102,20 @@ void FlagsMenu::render(Font& font) {
                 break;
             }
             case MIDNA_Z_INDEX: {
-                tp_gameInfo.midna_on_z ^= 0x10;
+                tp_gameInfo.event_flags.midna_on_z ^= 0x10;
                 break;
             }
             case TRANSFORM_WARP_INDEX: {
-                tp_gameInfo.transform_flag ^= 0x04;
+                tp_gameInfo.event_flags.transform_flag ^= 0x04;
                 break;
             }
             case WOLF_SENSE_INDEX: {
-                tp_gameInfo.have_sense_flag ^= 0x08;
+                tp_gameInfo.event_flags.have_sense_flag ^= 0x08;
                 break;
             }
 
             case MIDNA_CHARGE_INDEX: {
-                tp_gameInfo.epona_stolen_and_midna_charge_flag ^= 0x01;
+                tp_gameInfo.event_flags.epona_stolen_and_midna_charge_flag ^= 0x01;
                 break;
             }
         }
