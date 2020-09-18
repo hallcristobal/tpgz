@@ -51,7 +51,7 @@ void draw() {
     if (ToolItems[Tools::INPUT_VIEWER_INDEX].active) {
         InputViewer::render(default_font);
     }
-    if (ToolItems[Tools::TIMER_INDEX].active) {
+    if (ToolItems[Tools::TIMER_INDEX].active || ToolItems[Tools::LOAD_TIMER_INDEX].active || ToolItems[Tools::IGT_TIMER_INDEX].active) {
         Timer::render(default_font);
     }
     MenuRendering::render_active_menus(default_font);

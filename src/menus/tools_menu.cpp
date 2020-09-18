@@ -33,6 +33,8 @@ Tool ToolItems[TOOL_AMNT] = {
     {ROLL_INDEX, false},
     {TELEPORT_INDEX, false},
     {TIMER_INDEX, false},
+    {LOAD_TIMER_INDEX, false},
+    {IGT_TIMER_INDEX, false},
     {FREE_CAM_INDEX, false}};
 
 Line lines[LINES] = {
@@ -46,8 +48,10 @@ Line lines[LINES] = {
     {"roll checker", ROLL_INDEX, "Frame counter for chaining rolls", true, &ToolItems[ROLL_INDEX].active},
     {"teleport", TELEPORT_INDEX, "dpadUp to set, dpadDown to load", true, &ToolItems[TELEPORT_INDEX].active},
     {"timer", TIMER_INDEX, "Frame timer: Z+A to start/stop, Z+B to reset", true, &ToolItems[TIMER_INDEX].active},
+    {"load timer", LOAD_TIMER_INDEX, "Loading zone timer: Z+B to reset", true, &ToolItems[LOAD_TIMER_INDEX].active},
+    {"igt timer", IGT_TIMER_INDEX, "In-game time timer: Z+A to start/stop, Z+B to reset", true, &ToolItems[IGT_TIMER_INDEX].active},
     {"free cam", FREE_CAM_INDEX, "Z+A+B to activate, Stick/L/R to move, C-stick to look, Z to speed", true, &ToolItems[FREE_CAM_INDEX].active},
-    {"link tunic color:   ", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false, nullptr, MAX_TUNIC_COLORS}};
+    {"link tunic color:", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false, nullptr, MAX_TUNIC_COLORS}};
 
 void ToolsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
@@ -81,7 +85,7 @@ void ToolsMenu::render(Font& font) {
     } else {
         Utilities::move_cursor(cursor, LINES);
     }
-    sprintf(lines[TUNIC_COLOR_INDEX].line, "link tunic color:    <%s>", tunic_color_options[tunic_color_index].member);
+    sprintf(lines[TUNIC_COLOR_INDEX].line, "link tunic color:     <%s>", tunic_color_options[tunic_color_index].member);
     Utilities::render_lines(font, lines, cursor.y, LINES);
 
     if (current_input == 256 && a_held == false) {
@@ -89,6 +93,15 @@ void ToolsMenu::render(Font& font) {
         if (ToolItems[cursor.y].active) {
             switch (cursor.y) {
                 case TIMER_INDEX: {
+                    Commands::enable_command(Commands::TIMER_TOGGLE);
+                    Commands::enable_command(Commands::TIMER_RESET);
+                    break;
+                }
+                case LOAD_TIMER_INDEX: {
+                    Commands::enable_command(Commands::TIMER_RESET);
+                    break;
+                }
+                case IGT_TIMER_INDEX: {
                     Commands::enable_command(Commands::TIMER_TOGGLE);
                     Commands::enable_command(Commands::TIMER_RESET);
                     break;
