@@ -513,7 +513,7 @@ enum cursor_colors {
 	CURSOR_PURPLE
 };
 
-#define SPRITES_AMNT 6
+#define SPRITES_AMNT 7
 enum SpritesIndex {
     MENU_INDEX = 0,
     VIEWER_INDEX = 1,
@@ -521,6 +521,7 @@ enum SpritesIndex {
     TIMER_SPR_INDEX = 3,
     LOAD_TIMER_SPR_INDEX = 4,
     IGT_TIMER_SPR_INDEX = 5,
+    FIFO_SPR_INDEX = 6
 };
 
 // TODO Move this into libtp_c

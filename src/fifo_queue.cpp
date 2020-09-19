@@ -21,7 +21,7 @@ void FIFOQueue::renderItems(_FIFOQueue& Queue, Font& font) {
         }
         color |= alpha;
         if (fifo_visible) {
-            font.renderChars(Queue.messages[i].msg, 5.0f, offset, color);
+            font.renderChars(Queue.messages[i].msg, 5.0f + (sprite_offsets[FIFO_SPR_INDEX].x), offset + (sprite_offsets[FIFO_SPR_INDEX].y), color);
         }
     }
 };
