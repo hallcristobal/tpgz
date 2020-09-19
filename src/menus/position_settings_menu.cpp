@@ -24,12 +24,12 @@ uint8_t selected_item = NO_SELECTION;
 Vec2 sprite_offsets[SPRITES_AMNT];
 
 Line lines[LINES] = {
-    {"main menu", MENU_INDEX, "Change main menu position", false},
-    {"input viewer", VIEWER_INDEX, "Change input viewer position", false},
-    {"link debug info", DEBUG_INFO_INDEX, "Change link debug info position", false},
-    {"timer", TIMER_INDEX, "Change timer position", false},
-    {"load timer", LOAD_TIMER_INDEX, "Change load timer position", false},
-    {"igt timer", IGT_TIMER_INDEX, "Change IGT timer position", false}};
+    {"main menu", SpritesIndex::MENU_INDEX, "Change main menu position", false},
+    {"input viewer", SpritesIndex::VIEWER_INDEX, "Change input viewer position", false},
+    {"link debug info", SpritesIndex::DEBUG_INFO_INDEX, "Change link debug info position", false},
+    {"timer", SpritesIndex::TIMER_SPR_INDEX, "Change timer position", false},
+    {"load timer", SpritesIndex::LOAD_TIMER_SPR_INDEX, "Change load timer position", false},
+    {"igt timer", SpritesIndex::IGT_TIMER_SPR_INDEX, "Change IGT timer position", false}};
 
 void PosSettingsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {

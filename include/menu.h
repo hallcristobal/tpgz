@@ -518,9 +518,9 @@ enum SpritesIndex {
     MENU_INDEX = 0,
     VIEWER_INDEX = 1,
     DEBUG_INFO_INDEX = 2,
-    TIMER_INDEX = 3,
-    LOAD_TIMER_INDEX = 4,
-    IGT_TIMER_INDEX = 5,
+    TIMER_SPR_INDEX = 3,
+    LOAD_TIMER_SPR_INDEX = 4,
+    IGT_TIMER_SPR_INDEX = 5,
 };
 
 // TODO Move this into libtp_c
