@@ -129,9 +129,9 @@ namespace InputViewer {
     }
 
     void draw_cross(uint32_t color, Vec2 pos, float size) {
-        int branch_width = 8.f * size;
-        int branch_length = 10.f * size;
-        int branch_offset = (branch_width / 2 + branch_length / 2);
+        float branch_width = 8.f * size;
+        float branch_length = 10.f * size;
+        float branch_offset = (branch_width / 2 + branch_length / 2);
         draw_rect_outline(color, {pos.x - branch_offset, pos.y}, {branch_length, branch_width});
         if (Controller::button_is_down(Controller::DPAD_LEFT)) {
             draw_rect(color, {pos.x - branch_offset, pos.y}, {branch_length, branch_width});
