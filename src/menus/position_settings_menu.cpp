@@ -8,9 +8,16 @@
 #define LINES SPRITES_AMNT
 #define NO_SELECTION ((uint8_t)-1)
 
+#define INITAL_SPEED 1.0f
+#define INCREMENT_FACTOR 1.05f
+#define MAX_SPEED 20.f
+
 static Cursor cursor = {0, 0};
 bool init_once = false;
 bool pos_settings_visible;
+
+float speed;
+bool was_pressed;
 
 uint8_t selected_item = NO_SELECTION;
 
@@ -47,18 +54,33 @@ void PosSettingsMenu::render(Font& font) {
     }
 
     if (selected_item != NO_SELECTION && selected_item < SPRITES_AMNT) {
-        if (button_is_pressed(Controller::DPAD_RIGHT)) {
-            ++(sprite_offsets[selected_item].x);
+        if (button_is_pressed_time(Controller::DPAD_RIGHT, 3)) {
+            sprite_offsets[selected_item].x += speed;
         }
-        if (button_is_pressed(Controller::DPAD_LEFT)) {
-            --(sprite_offsets[selected_item].x);
+        if (button_is_pressed_time(Controller::DPAD_LEFT, 3)) {
+            sprite_offsets[selected_item].x -= speed;
         }
-        if (button_is_pressed(Controller::DPAD_UP)) {
-            --(sprite_offsets[selected_item].y);
+        if (button_is_pressed_time(Controller::DPAD_UP, 3)) {
+            sprite_offsets[selected_item].y -= speed;
         }
-        if (button_is_pressed(Controller::DPAD_DOWN)) {
-            ++(sprite_offsets[selected_item].y);
+        if (button_is_pressed_time(Controller::DPAD_DOWN, 3)) {
+            sprite_offsets[selected_item].y += speed;
         }
+    }
+
+    if (button_is_down(Controller::DPAD_RIGHT) ||
+        button_is_down(Controller::DPAD_LEFT) ||
+        button_is_down(Controller::DPAD_UP) ||
+        button_is_down(Controller::DPAD_DOWN))
+    {
+        if (speed < MAX_SPEED) {
+            speed *= INCREMENT_FACTOR;
+        }
+        if (speed > MAX_SPEED) {
+            speed = MAX_SPEED;
+        }
+    } else {
+        speed = INITAL_SPEED;
     }
 
     Utilities::move_cursor(cursor, LINES, 1, selected_item != NO_SELECTION, selected_item != NO_SELECTION);
