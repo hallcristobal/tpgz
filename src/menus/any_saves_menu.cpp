@@ -98,8 +98,8 @@ void set_angle_position() {
 
 void hugo() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.temp_flags.temp_flag_bit_field_19 = 128;  // midna trigger off
-    tp_gameInfo.temp_flags.temp_flag_bit_field_17 = 0;    // hugo alive
+    tp_gameInfo.temp_flags.flags[14] = 128;  // midna trigger off
+    tp_gameInfo.temp_flags.flags[12] = 0;    // hugo alive
 }
 
 void karg_oob() {
@@ -133,8 +133,8 @@ void palace2() {
 
 void lakebed_bk_skip_during() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.temp_flags.temp_flag_bit_field_16 = 18;   // bridge turned
-    tp_gameInfo.temp_flags.temp_flag_bit_field_25 = 223;  // dungeon intro cs off
+    tp_gameInfo.temp_flags.flags[11] = 18;   // bridge turned
+    tp_gameInfo.temp_flags.flags[20] = 223;  // dungeon intro cs off
 }
 
 void AnySavesMenu::render(Font& font) {

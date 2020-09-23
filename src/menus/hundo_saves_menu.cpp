@@ -156,7 +156,7 @@ void escort() {
     tp_gameInfo.warp.entrance.room = 0xD;
     tp_gameInfo.warp.entrance.spawn = 0x62;
     tp_gameInfo.warp.entrance.state = 0x2;
-    tp_gameInfo.temp_flags.temp_flag_bit_field_33 = 2;  // give 2 keys for field gates
+    tp_gameInfo.temp_flags.flags[28] = 2;  // give 2 keys for field gates
 }
 
 void dangoro() {
@@ -215,7 +215,7 @@ void tot_early_hp() {
 
 void hugo_archery() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.temp_flags.temp_flag_bit_field_19 = 0xC0;  // start archery minigame
+    tp_gameInfo.temp_flags.flags[14] = 0xC0;  // start archery minigame
 }
 
 void cits_poe_cycle() {
@@ -241,7 +241,7 @@ void palace2() {
 
 void lakebed_bk_skip_during() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.temp_flags.temp_flag_bit_field_25 = 223;  // dungeon intro cs off
+    tp_gameInfo.temp_flags.flags[20] = 223;  // dungeon intro cs off
 }
 
 void cave_of_ordeals() {
