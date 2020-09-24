@@ -3,6 +3,7 @@
 #include "timer.h"
 #include "input_viewer.h"
 #include "cheats.h"
+#include "libtp_c/include/utils.h"
 #include <string.h>
 #define CURSOR_RGBA cursor_rgba
 
@@ -543,11 +544,6 @@ enum SpritesIndex {
     LOAD_TIMER_SPR_INDEX = 4,
     IGT_TIMER_SPR_INDEX = 5,
     FIFO_SPR_INDEX = 6
-};
-
-// TODO Move this into libtp_c
-struct Vec2 {
-    float x, y;
 };
 
 extern Vec2 sprite_offsets[SPRITES_AMNT];
