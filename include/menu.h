@@ -203,11 +203,22 @@ struct MemoryWatch {
 };
 
 extern MemoryWatch Watches[MAX_WATCHES];
+extern bool watches_visible;
+
+// memory editor
+
+struct MemoryLine {
+    bool line_selected = false;
+    bool value_selected = false;
+};
+
+extern bool memory_editor_visible;
 
 // flags
 #define GENERAL_FLAGS_INDEX 0
 #define DUNGEON_FLAGS_INDEX 1
 #define PORTAL_FLAGS_INDEX 2
+#define TEMP_FLAGS_INDEX 3
 extern bool flags_menu_visible;
 
 enum GeneralFlagsIndex {
@@ -258,6 +269,15 @@ enum PortalFlagsIndex {
 };
 
 extern bool portal_flags_visible;
+
+// Temp Flags
+struct AreaNode {
+    uint8_t offset;
+    bool bit[8];
+    bool line_selected = false;
+};
+
+extern bool temp_flags_visible;
 
 // practice
 #define ANY_INDEX 0
@@ -431,7 +451,7 @@ namespace Scene {
 extern Scene::SceneItem SceneItems[SCENE_AMNT];
 
 // tools
-#define TOOL_AMNT 14
+#define TOOL_AMNT 15
 namespace Tools {
     enum ToolsIndex {
         RELOAD_AREA_INDEX,
@@ -447,6 +467,7 @@ namespace Tools {
 		LOAD_TIMER_INDEX,
 		IGT_TIMER_INDEX,
 		FREE_CAM_INDEX,
+		MOVE_LINK_INDEX,
         TUNIC_COLOR_INDEX
     };
 
@@ -607,6 +628,17 @@ class MemoryMenu : public Menu {
     MemoryMenu() : Menu() {}
     static void render(Font& font);
 };
+class WatchesMenu : public Menu {
+   public:
+    WatchesMenu() : Menu() {}
+    static void render(Font& font);
+};
+class MemoryEditorMenu : public Menu {
+   public:
+    MemoryEditorMenu() : Menu() {}
+    static void render(Font& font);
+};
+
 class FlagsMenu : public Menu {
    public:
     FlagsMenu() : Menu() {}
@@ -625,6 +657,11 @@ class DungeonFlagsMenu : public Menu {
 class PortalFlagsMenu : public Menu {
    public:
     PortalFlagsMenu() : Menu() {}
+    static void render(Font& font);
+};
+class TempFlagsMenu : public Menu {
+   public:
+    TempFlagsMenu() : Menu() {}
     static void render(Font& font);
 };
 
@@ -670,7 +707,7 @@ class ToolsMenu : public Menu {
     static void render(Font& font);
 };
 
-#define MAX_MENU_RENDER_FLAGS 19
+#define MAX_MENU_RENDER_FLAGS 22
 
 struct MenuRenderFlag {
     bool* activation_flag;
@@ -683,10 +720,13 @@ MenuRenderFlag MenuRenderFlags[MAX_MENU_RENDER_FLAGS] = {
     {&item_wheel_visible, ItemWheelMenu::render},
     {&warping_visible, WarpingMenu::render},
     {&memory_visible, MemoryMenu::render},
+    {&watches_visible, WatchesMenu::render},
+    {&memory_editor_visible, MemoryEditorMenu::render},
     {&flags_menu_visible, FlagsMenu::render},
     {&general_flags_visible, GeneralFlagsMenu::render},
     {&dungeon_flags_visible, DungeonFlagsMenu::render},
     {&portal_flags_visible, PortalFlagsMenu::render},
+    {&temp_flags_visible, TempFlagsMenu::render},
     {&prac_visible, PracticeMenu::render},
     {&cheats_visible, CheatsMenu::render},
     {&scene_menu_visible, SceneMenu::render},
