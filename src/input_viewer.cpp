@@ -18,14 +18,14 @@ namespace InputViewer {
     void draw_stick(uint32_t color, Vec2 pos, float size) {
         float s2 = size / 2;
         float dx1 = 0;
-        float dy1 = -s2;
-        float dx2 = s2 * 0.7071f;
-        float dy2 = - s2 * 0.7071f;
+        float dy1 = -1.0f;
+        float dx2 = 0.7071f;
+        float dy2 = -0.7071f;
         float tmp;
         Draw::begin(8, GX_TRIANGLEFAN);
             for (uint8_t i = 0; i < 4; ++i) {
-                Draw::add_vertex(color, {pos.x + dx1, pos.y + dy1});
-                Draw::add_vertex(color, {pos.x + dx2, pos.y + dy2});
+                Draw::add_vertex(color, {pos.x + s2 * dx1, pos.y + s2 * dy1}, {0.5f + dx1, 0.5f + dy1});
+                Draw::add_vertex(color, {pos.x + s2 * dx2, pos.y + s2 * dy2}, {0.5f + dx2, 0.5f + dy2});
                 tmp = dx1;
                 dx1 = -dy1;
                 dy1 = tmp;
@@ -39,14 +39,14 @@ namespace InputViewer {
     void draw_stick_outline(uint32_t color, Vec2 pos, float size) {
         float s2 = size / 2;
         float dx1 = 0;
-        float dy1 = -s2;
-        float dx2 = s2 * 0.7071f;
-        float dy2 = - s2 * 0.7071f;
+        float dy1 = -1.0f;
+        float dx2 = 0.7071f;
+        float dy2 = -0.7071f;
         float tmp;
         Draw::begin_outline(9, OUTLINE_WIDTH);
             for (uint8_t i = 0; i < 4; ++i) {
-                Draw::add_vertex(color, {pos.x + dx1, pos.y + dy1});
-                Draw::add_vertex(color, {pos.x + dx2, pos.y + dy2});
+                Draw::add_vertex(color, {pos.x + s2 * dx1, pos.y + s2 * dy1}, {0.5f + dx1, 0.5f + dy1});
+                Draw::add_vertex(color, {pos.x + s2 * dx2, pos.y + s2 * dy2}, {0.5f + dx2, 0.5f + dy2});
                 tmp = dx1;
                 dx1 = -dy1;
                 dy1 = tmp;
@@ -54,7 +54,7 @@ namespace InputViewer {
                 dx2 = -dy2;
                 dy2 = tmp;
             }
-            Draw::add_vertex(color, {pos.x + dx1, pos.y + dy1});
+            Draw::add_vertex(color, {pos.x + s2 * dx1, pos.y + s2 * dy1}, {0.5f + dx1, 0.5f + dy1});
         Draw::end();
     }
 

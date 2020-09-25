@@ -49,10 +49,10 @@ namespace Draw {
 
     void draw_quad(uint32_t color, Vec2 p[4]) {
         begin(4);
-            add_vertex(color, p[0]);
-            add_vertex(color, p[1]);
-            add_vertex(color, p[3]);
-            add_vertex(color, p[2]);
+            add_vertex(color, p[0], {0.0, 0.0});
+            add_vertex(color, p[1], {1.0, 0.0});
+            add_vertex(color, p[3], {0.0, 1.0});
+            add_vertex(color, p[2], {1.0, 1.0});
         end();
     }
 
@@ -62,11 +62,11 @@ namespace Draw {
 
     void draw_quad_outline(uint32_t color, Vec2 p[4], uint8_t width) {
         begin_outline(5, width);
-            add_vertex(color, p[0]);
-            add_vertex(color, p[1]);
-            add_vertex(color, p[2]);
-            add_vertex(color, p[3]);
-            add_vertex(color, p[0]);
+            add_vertex(color, p[0], {0.0, 0.0});
+            add_vertex(color, p[1], {1.0, 0.0});
+            add_vertex(color, p[2], {1.0, 1.0});
+            add_vertex(color, p[3], {0.0, 1.0});
+            add_vertex(color, p[0], {0.0, 0.0});
         end();
     }
 
