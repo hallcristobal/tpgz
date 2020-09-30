@@ -62,8 +62,8 @@ inventory menu:
 - amounts menu                  // Modify ammo / collectible amounts
 
 memory menu:
-- Watches                       // Add memory watches to the screen
-- Editor                        // Browse and edit the memory
+- watches                       // Add memory watches to the screen
+- editor                        // Browse and edit the memory
 
 practice menu:
 - Load practice files* (supports popular Any% and 100% locations)
