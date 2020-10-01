@@ -8,6 +8,7 @@
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
+#include "utils/loading.hpp"
 
 bool reload_area_flag = false;
 bool timer_started = false;
@@ -20,8 +21,6 @@ namespace Commands {
     static uint16_t saved_angle = 0;
     static Vec3 saved_pos = {0.0f, 0.0f, 0.0f};
     static Vec3 saved_target = {0.0f, 0.0f, 0.0f};
-    static uint16_t saved_c6 = 0;
-    static float saved_c7 = 0.0f;
     static int button_last_frame;
     static int button_this_frame;
 
@@ -32,8 +31,6 @@ namespace Commands {
         saved_angle = tp_zelAudio.link_debug_ptr->facing;
         saved_pos = tp_matrixInfo.matrix_info->pos;
         saved_target = tp_matrixInfo.matrix_info->target;
-        saved_c6 = tp_matrixInfo.matrix_info->camera6;
-        saved_c7 = tp_matrixInfo.matrix_info->camera7;
     }
 
     void load_position() {
@@ -43,8 +40,6 @@ namespace Commands {
         tp_zelAudio.link_debug_ptr->facing = saved_angle;
         tp_matrixInfo.matrix_info->pos = saved_pos;
         tp_matrixInfo.matrix_info->target = saved_target;
-        tp_matrixInfo.matrix_info->camera6 = saved_c6;
-        tp_matrixInfo.matrix_info->camera7 = saved_c7;
     }
 
     void moon_jump() {
@@ -78,7 +73,7 @@ namespace Commands {
 
     void gorge_void() {
         if (button_this_frame == 0x0050 && button_last_frame != 0x0050) {
-            loadFile("tpgz/save_files/any/gorge_void.bin");
+            Utilities::load_save_file("tpgz/save_files/any/gorge_void.bin");
             practice_file.inject_options_before_load = SaveInjector::inject_default_before;
             practice_file.inject_options_during_load = GorgeVoidIndicator::warp_to_gorge;
             practice_file.inject_options_after_load = GorgeVoidIndicator::prep_rupee_roll;

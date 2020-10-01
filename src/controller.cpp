@@ -40,7 +40,7 @@ static ButtonState buttonStates[BUTTON_STATES] = {
     {Controller::Pad::Y, 0xFFFFFFFF, false},
     {Controller::Pad::START, 0xFFFFFFFF, false}};
 
-extern "C" uint32_t read_controller() {
+extern "C" void read_controller() {
     sButtons_down_last_frame = sButtons_down;
     sButtons_down = tp_mPadStatus.sval;
     sButtons_pressed = sButtons_down & (0xFFFF ^ sButtons_down_last_frame);
@@ -85,7 +85,6 @@ extern "C" uint32_t read_controller() {
         sNum_frames_cursor_buffer = 0;
         Commands::process_inputs();
     }
-    return 0x80000000;
 }
 
 namespace Controller {
@@ -94,7 +93,7 @@ namespace Controller {
         return buttonStates[idx].is_down;
     }
 
-    bool button_is_pressed_time(int idx, uint16_t repeat_time) {
+    bool button_is_pressed(int idx, uint16_t repeat_time) {
         auto delta = TP::get_frame_count() - buttonStates[idx].pressed_frame;
         auto just_clicked = delta == 0;
         auto held_down_long_enough = delta > REPEAT_DELAY;
@@ -104,7 +103,7 @@ namespace Controller {
     }
 
     bool button_is_pressed(int idx) {
-        return button_is_pressed_time(idx, REPEAT_TIME);
+        return button_is_pressed(idx, REPEAT_TIME);
     }
 
     uint16_t get_current_inputs() {

@@ -9,6 +9,7 @@
 #include "menu.h"
 #include "gz_flags.h"
 #include "input_viewer.h"
+#include "utils/draw.h"
 #include "timer.h"
 #include "free_cam.h"
 #include "movelink.h"
@@ -19,10 +20,16 @@ Font default_font;
 
 extern "C" {
 
+#define main_tampoline ((void(*)(void))0x803737b4)
+void apply_lib_hooks() {
+    Hook::apply_hooks();
+    main_tampoline();
+}
+
 void init() {
     default_font = Font(f_Consolas, consolas_bytes);
-    InputViewer::init();
-    Hook::apply_hooks();
+    PosSettingsMenu::initDefaults();
+    Draw::init();
 }
 
 void game_loop() {

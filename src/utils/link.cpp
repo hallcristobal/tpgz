@@ -1,5 +1,6 @@
 #include "utils/link.hpp"
 #include "libtp_c/include/tp.h"
+#include "libtp_c/include/system.h"
 #include "menu.h"
 #include <stdio.h>
 
@@ -23,27 +24,27 @@ namespace Utilities {
             sprintf(link_y, "y-pos: %.4f", tp_zelAudio.link_debug_ptr->position.y);
             sprintf(link_z, "z-pos: %.4f", tp_zelAudio.link_debug_ptr->position.z);
 
-            font.gz_renderChars(link_angle, LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars(link_speed, LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 20.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars(link_x, LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 40.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars(link_y, LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 60.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars(link_z, LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 80.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars(link_angle, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars(link_speed, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 20.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars(link_x, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 40.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars(link_y, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 60.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars(link_z, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 80.0f, 0xFFFFFFFF, g_drop_shadows);
         } else {
-            font.gz_renderChars("angle: n/a", LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars("speed: n/a", LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 20.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars("x-pos: n/a", LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 40.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars("y-pos: n/a", LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 60.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars("z-pos: n/a", LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 80.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars("angle: n/a", sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars("speed: n/a", sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 20.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars("x-pos: n/a", sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 40.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars("y-pos: n/a", sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 60.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars("z-pos: n/a", sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 80.0f, 0xFFFFFFFF, g_drop_shadows);
         }
     }
     void change_tunic_color() {
         // patch out part of setWaterDropEffect's code
-        memset((void *)0x801244a4, 0x60, 1);
-        memset((void *)0x801244a5, 0x00, 3);
-        memset((void *)0x801244a8, 0x60, 1);
-        memset((void *)0x801244a9, 0x00, 3);
-        memset((void *)0x801244ac, 0x60, 1);
-        memset((void *)0x801244ad, 0x00, 3);
+        tp_memset((void *)0x801244a4, 0x60, 1);
+        tp_memset((void *)0x801244a5, 0x00, 3);
+        tp_memset((void *)0x801244a8, 0x60, 1);
+        tp_memset((void *)0x801244a9, 0x00, 3);
+        tp_memset((void *)0x801244ac, 0x60, 1);
+        tp_memset((void *)0x801244ad, 0x00, 3);
 
         if (tp_gameInfo.link_tunic_ptr) {
             switch (g_tunic_color) {
@@ -130,15 +131,15 @@ namespace Utilities {
 
 // temp -
 // patch setWaterDropEffect back to it's original code
-// memset((void *)0x801244a4, 0xB0, 1);
-// memset((void *)0x801244a5, 0x03, 1);
-// memset((void *)0x801244a6, 0x32, 1);
-// memset((void *)0x801244a7, 0xA0, 1);
-// memset((void *)0x801244a8, 0xB0, 1);
-// memset((void *)0x801244a9, 0x03, 1);
-// memset((void *)0x801244aa, 0x32, 1);
-// memset((void *)0x801244ab, 0xA2, 1);
-// memset((void *)0x801244ac, 0xB0, 1);
-// memset((void *)0x801244ad, 0x03, 1);
-// memset((void *)0x801244ae, 0x32, 1);
-// memset((void *)0x801244af, 0xA4, 1);
+// tp_memset((void *)0x801244a4, 0xB0, 1);
+// tp_memset((void *)0x801244a5, 0x03, 1);
+// tp_memset((void *)0x801244a6, 0x32, 1);
+// tp_memset((void *)0x801244a7, 0xA0, 1);
+// tp_memset((void *)0x801244a8, 0xB0, 1);
+// tp_memset((void *)0x801244a9, 0x03, 1);
+// tp_memset((void *)0x801244aa, 0x32, 1);
+// tp_memset((void *)0x801244ab, 0xA2, 1);
+// tp_memset((void *)0x801244ac, 0xB0, 1);
+// tp_memset((void *)0x801244ad, 0x03, 1);
+// tp_memset((void *)0x801244ae, 0x32, 1);
+// tp_memset((void *)0x801244af, 0xA4, 1);

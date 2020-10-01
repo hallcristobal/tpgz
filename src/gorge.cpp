@@ -6,7 +6,6 @@
 #include "libtp_c/include/controller.h"
 #include "fifo_queue.h"
 #include "controller.h"
-#include "log.h"
 #include "fs.h"
 #define WARP_CS_FRAMES 132
 
@@ -24,17 +23,12 @@ namespace GorgeVoidIndicator {
     static char buf[20];
 
     void prep_rupee_roll() {
-        Log log;
-        log.PrintLog("Saving temp flag #14 to 0x20", DEBUG);
         tp_gameInfo.temp_flags.flags[9] = 0x20;
-        log.PrintLog("Setting cs_val to 0x900", DEBUG);
         tp_gameInfo.cs_val = 0x900;
         inject_gorge_flag = false;
     }
 
     void warp_to_gorge() {
-        Log log;
-        
         // set gorge map info
         tp_gameInfo.overworld_flags.hyrule_field_flags.flags[9] = 0;
         tp_gameInfo.temp_flags.flags[8] = 0;
@@ -58,20 +52,12 @@ namespace GorgeVoidIndicator {
         tp_gameInfo.link.heart_quarters = 12;  // 3 hearts
 
         // trigger loading, convert some of these to const later
-        log.PrintLog("Setting respawn id to 2", DEBUG);
         tp_gameInfo.special_spawn_id = 2;
-        log.PrintLog("Setting respawn position: {-11856.857f, -5700.0f, 56661.5}", DEBUG);
         tp_gameInfo.respawn_position = {-11856.857f, -5700.0f, 56661.5};
-        log.PrintLog("Setting respawn angle: 24169", DEBUG);
         tp_gameInfo.respawn_angle = 24169;
-        log.PrintLog("Clearing rupee flags", DEBUG);
         Inventory::clear_rupee_flags();
-
-        
     }
     void run() {
-        Log log;
-        
         // reset counters on load
         if (tp_fopScnRq.isLoading == 1) {
             counter_difference = 0;
@@ -81,7 +67,7 @@ namespace GorgeVoidIndicator {
         }
 
         current_counter = TP::get_frame_count();
-        
+
         // situation specific frame counters
         if (start_timer == false && tp_gameInfo.freeze_game == 1 && tp_gameInfo.cs_val == 0x128 && strcmp((const char *)tp_gameInfo.current_stage, "F_SP121") == 0) {
             start_timer = true;
@@ -98,9 +84,7 @@ namespace GorgeVoidIndicator {
             }
 
             sprintf(buf, "counter: %d", counter_difference);
-            log.PrintLog(buf, DEBUG);
             sprintf(buf, "inputs: %d", tp_mPadStatus.sval);
-            log.PrintLog(buf, DEBUG);
 
             // only care about 10f before and after
             if (counter_difference > 123 && after_cs_val < 10) {
