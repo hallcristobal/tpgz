@@ -541,15 +541,14 @@ enum SettingsIndex {
     AREA_RELOAD_BEHAVIOR_INDEX,
 	CURSOR_COLOR_INDEX,
     DROP_SHADOWS_INDEX,
-    // SAVE_CARD_INDEX,
-    // LOAD_CARD_INDEX,
+    SAVE_CARD_INDEX,
+    LOAD_CARD_INDEX,
 	POS_SETTINGS_MENU_INDEX
 };
 extern bool settings_visible;
 extern bool pos_settings_visible;
 extern bool g_drop_shadows;
 extern int g_area_reload_behavior;
-extern bool g_autoload_card;
 extern int g_cursor_color;
 extern bool g_cursor_color_flag;
 extern int cursor_rgba;
@@ -581,6 +580,12 @@ extern Vec2 sprite_offsets[SPRITES_AMNT];
 struct SaveLayout {
     Cheats::Cheat CheatItems[CHEAT_AMNT];
     Tools::Tool ToolItems[TOOL_AMNT];
+    Scene::SceneItem SceneItems[SCENE_AMNT];
+    MemoryWatch Watches[MAX_WATCHES];
+    Vec2 sprite_offsets[SPRITES_AMNT];
+    bool g_drop_shadows;
+    int g_area_reload_behavior;
+    int g_cursor_color;
 } __attribute__((aligned(32)));
 
 #define MAX_LIST_MEMBER_LENGTH 40
