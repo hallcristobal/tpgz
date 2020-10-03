@@ -369,6 +369,18 @@ enum AnyPracticeIndex {
     HORSEBACK_GANON_INDEX
 };
 
+struct PracticeSaveInfo {
+    uint8_t requirements;
+    uint8_t _p0[1];
+    uint16_t angle;
+    Vec3 position;
+    Vec3 cam_pos;
+    Vec3 cam_target;
+    uint32_t counter;
+    char filename[32];
+    uint8_t _p1[4];
+} __attribute__((packed));
+
 extern bool any_saves_visible;
 
 // hundo saves
@@ -541,15 +553,14 @@ enum SettingsIndex {
     AREA_RELOAD_BEHAVIOR_INDEX,
 	CURSOR_COLOR_INDEX,
     DROP_SHADOWS_INDEX,
-    // SAVE_CARD_INDEX,
-    // LOAD_CARD_INDEX,
+    SAVE_CARD_INDEX,
+    LOAD_CARD_INDEX,
 	POS_SETTINGS_MENU_INDEX
 };
 extern bool settings_visible;
 extern bool pos_settings_visible;
 extern bool g_drop_shadows;
 extern int g_area_reload_behavior;
-extern bool g_autoload_card;
 extern int g_cursor_color;
 extern bool g_cursor_color_flag;
 extern int cursor_rgba;
@@ -578,10 +589,48 @@ enum SpritesIndex {
 
 extern Vec2 sprite_offsets[SPRITES_AMNT];
 
-struct SaveLayout {
+// Saves
+
+#define GZ_SAVE_VERSION_NUMBER 0
+#define GZ_SAVE_ENTRIES_AMNT 8
+
+// These numbers can only change when we change the GZ_SAVE_VERSION_NUMBER,
+// otherwise, only new entries can be added.
+enum GZSaveIndex {
+    SV_CHEATS_INDEX = 0,
+    SV_TOOLS_INDEX = 1,
+    SV_SCENE_INDEX = 2,
+    SV_WATCHES_INDEX = 3,
+    SV_SPRITES_INDEX = 4,
+    SV_DROP_SHADOW_INDEX = 5,
+    SV_AREA_RELOAD_INDEX = 6,
+    SV_CURSOR_COLOR_INDEX = 7,
+};
+
+struct GZSaveHeader {
+    uint32_t version;
+    uint32_t entries;
+    uint32_t offsetsLoc;
+    uint32_t sizesLoc;
+};
+
+struct GZSaveLayout {
     Cheats::Cheat CheatItems[CHEAT_AMNT];
     Tools::Tool ToolItems[TOOL_AMNT];
-} __attribute__((aligned(32)));
+    Scene::SceneItem SceneItems[SCENE_AMNT];
+    MemoryWatch Watches[MAX_WATCHES];
+    Vec2 sprite_offsets[SPRITES_AMNT];
+    bool g_drop_shadows;
+    int g_area_reload_behavior;
+    int g_cursor_color;
+};
+
+struct GZSaveFile {
+    GZSaveHeader header;
+    uint32_t offsets[GZ_SAVE_ENTRIES_AMNT];
+    uint32_t sizes[GZ_SAVE_ENTRIES_AMNT];
+    GZSaveLayout data;
+};
 
 #define MAX_LIST_MEMBER_LENGTH 40
 #define MAX_LIST_ITEMS 20
