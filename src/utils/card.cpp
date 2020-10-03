@@ -78,14 +78,14 @@ namespace Utilities {
         save_file.offsets[idx] = offsetof(GZSaveFile, data) + offsetof(GZSaveLayout, attr);\
         save_file.sizes[idx] = sizeof(save_file.data.attr)
 
-        set_entry(0, CheatItems);
-        set_entry(1, ToolItems);
-        set_entry(2, SceneItems);
-        set_entry(3, Watches);
-        set_entry(4, sprite_offsets);
-        set_entry(5, g_drop_shadows);
-        set_entry(6, g_area_reload_behavior);
-        set_entry(7, g_cursor_color);
+        set_entry(SV_CHEATS_INDEX, CheatItems);
+        set_entry(SV_TOOLS_INDEX, ToolItems);
+        set_entry(SV_SCENE_INDEX, SceneItems);
+        set_entry(SV_WATCHES_INDEX, Watches);
+        set_entry(SV_SPRITES_INDEX, sprite_offsets);
+        set_entry(SV_DROP_SHADOW_INDEX, g_drop_shadows);
+        set_entry(SV_AREA_RELOAD_INDEX, g_area_reload_behavior);
+        set_entry(SV_CURSOR_COLOR_INDEX, g_cursor_color);
 #undef set_entry
     }
 
@@ -109,14 +109,14 @@ namespace Utilities {
         if (idx < save_file.header.entries) {\
             assert_result(card_read(card_info, ptr, MIN(size, save_file.sizes[idx]), save_file.offsets[idx], sector_size));\
         }
-        assert_read_entry(0, save_file.data.CheatItems, sizeof(save_file.data.CheatItems));
-        assert_read_entry(1, save_file.data.ToolItems, sizeof(save_file.data.ToolItems));
-        assert_read_entry(2, save_file.data.SceneItems, sizeof(save_file.data.SceneItems));
-        assert_read_entry(3, save_file.data.Watches, sizeof(save_file.data.Watches));
-        assert_read_entry(4, save_file.data.sprite_offsets, sizeof(save_file.data.sprite_offsets));
-        assert_read_entry(5, &save_file.data.g_drop_shadows, sizeof(save_file.data.g_drop_shadows));
-        assert_read_entry(6, &save_file.data.g_area_reload_behavior, sizeof(save_file.data.g_area_reload_behavior));
-        assert_read_entry(7, &save_file.data.g_cursor_color, sizeof(save_file.data.g_cursor_color));
+        assert_read_entry(SV_CHEATS_INDEX, save_file.data.CheatItems, sizeof(save_file.data.CheatItems));
+        assert_read_entry(SV_TOOLS_INDEX, save_file.data.ToolItems, sizeof(save_file.data.ToolItems));
+        assert_read_entry(SV_SCENE_INDEX, save_file.data.SceneItems, sizeof(save_file.data.SceneItems));
+        assert_read_entry(SV_WATCHES_INDEX, save_file.data.Watches, sizeof(save_file.data.Watches));
+        assert_read_entry(SV_SPRITES_INDEX, save_file.data.sprite_offsets, sizeof(save_file.data.sprite_offsets));
+        assert_read_entry(SV_DROP_SHADOW_INDEX, &save_file.data.g_drop_shadows, sizeof(save_file.data.g_drop_shadows));
+        assert_read_entry(SV_AREA_RELOAD_INDEX, &save_file.data.g_area_reload_behavior, sizeof(save_file.data.g_area_reload_behavior));
+        assert_read_entry(SV_CURSOR_COLOR_INDEX, &save_file.data.g_cursor_color, sizeof(save_file.data.g_cursor_color));
 #undef assert_read_entry
 #undef assert_result
 
