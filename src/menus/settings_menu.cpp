@@ -56,44 +56,18 @@ void SettingsMenu::render(Font& font) {
                 return;
             };
             case SAVE_CARD_INDEX: {
-                char buf[8192] __attribute__((aligned(32)));
-                SaveLayout& save_layout = *(SaveLayout*)buf;
-                static MemCard::Card card;
+                static Card card;
                 card.file_name = "tpgz01";
                 card.sector_size = SECTOR_SIZE;
                 sprintf(card.file_name_buffer, card.file_name);
-
-                tp_memcpy(save_layout.CheatItems, CheatItems, sizeof(CheatItems));
-                tp_memcpy(save_layout.ToolItems, ToolItems, sizeof(ToolItems));
-                tp_memcpy(save_layout.SceneItems, SceneItems, sizeof(SceneItems));
-                tp_memcpy(save_layout.Watches, Watches, sizeof(Watches));
-                tp_memcpy(save_layout.sprite_offsets, sprite_offsets, sizeof(sprite_offsets));
-                save_layout.g_drop_shadows = g_drop_shadows;
-                save_layout.g_area_reload_behavior = g_area_reload_behavior;
-                save_layout.g_cursor_color = g_cursor_color;
-
                 card.card_result = CARDProbeEx(0, nullptr, &card.sector_size);
                 if (card.card_result == Ready) {
-                    card.card_result = CARDCreate(0, card.file_name_buffer, card.sector_size, &card.card_info);
-                    if (card.card_result == Ready || card.card_result == Exist) {
-                        card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
-                        if (card.card_result == Ready) {
-                            card.card_result = CARDWrite(&card.card_info, &save_layout, card.sector_size, 0);
-                            if (card.card_result == Ready) {
-                                tp_osReport("saved card!");
-                                FIFOQueue::push("saved card!", Queue);
-                            } else {
-                                tp_osReport("failed to save");
-                                FIFOQueue::push("failed to save", Queue);
-                            }
-                            card.card_result = CARDClose(&card.card_info);
-                        }
-                    }
+                    Utilities::store_mem_card(card);
                 }
                 break;
             };
             case LOAD_CARD_INDEX: {
-                static MemCard::Card card;
+                static Card card;
                 card.file_name = "tpgz01";
                 card.sector_size = SECTOR_SIZE;
                 sprintf(card.file_name_buffer, card.file_name);
