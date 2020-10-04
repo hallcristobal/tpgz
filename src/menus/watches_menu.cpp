@@ -1,5 +1,6 @@
 #include "font.h"
-#include "menu.h"
+#include "menus/memory_menu.h"
+#include "menus/settings_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -18,7 +19,6 @@
 
 Cursor cursor;
 
-bool watches_visible;
 bool init_once = false;
 bool lock_cursor_y = false;
 bool lock_cursor_x = false;
@@ -457,9 +457,7 @@ void WatchesMenu::render(Font& font) {
             lock_cursor_y = false;
         } else {
             init_once = false;
-            watches_visible = false;
-            memory_visible = true;
-            mm_visible = false;
+		    MenuRendering::set_menu(MN_MEMORY_INDEX);
             return;
         }
     };
