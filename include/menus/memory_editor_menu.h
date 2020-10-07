@@ -10,3 +10,5 @@ public:
     MemoryEditorMenu() : Menu() {}
     static void render(Font& font);
 };
+
+extern uint32_t address_index;
