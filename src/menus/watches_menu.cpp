@@ -1,5 +1,6 @@
 #include "font.h"
 #include "menus/memory_menu.h"
+#include "menus/memory_editor_menu.h"
 #include "menus/settings_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
@@ -488,8 +489,7 @@ void WatchesMenu::render(Font& font) {
     if (button_is_pressed(Controller::Y)) {
         address_index = Watches[cursor.y].address;
         init_once = false;
-        watches_visible = false;
-        memory_editor_visible = true;
+        MenuRendering::set_menu(MN_MEMORY_EDITOR_INDEX);
     }
 
     Utilities::move_cursor(cursor, MAX_WATCHES, WATCH_COLUMNS, lock_cursor_x, lock_cursor_y);
