@@ -19,7 +19,7 @@ namespace Utilities {
                 break;
             }
             int32_t rem_size = sector_size - (offset & (sector_size - 1));
-            tp_memcpy(buf + (offset & (sector_size - 1)), data, size > rem_size ? rem_size : size);
+            tp_memcpy(buf + (offset & (sector_size - 1)), data, MIN(rem_size, size));
             result = CARDWrite(card_info, buf, sector_size, (offset & ~(sector_size - 1)));
             size -= rem_size;
             offset += rem_size;
@@ -41,7 +41,7 @@ namespace Utilities {
                 break;
             }
             int32_t rem_size = sector_size - (offset & (sector_size - 1));
-            tp_memcpy(data, buf + (offset & (sector_size - 1)), size > rem_size ? rem_size : size);
+            tp_memcpy(data, buf + (offset & (sector_size - 1)), MIN(rem_size, size));
             size -= rem_size;
             offset += rem_size;
         }
@@ -133,8 +133,9 @@ namespace Utilities {
         GZSaveFile save_file;
         Utilities::setup_save_file(save_file);
         Utilities::store_save_layout(save_file.data);
+        uint32_t file_size = (uint32_t)(tp_ceil((double)sizeof(save_file) / (double)card.sector_size) * card.sector_size);
         card.card_result = CARDDelete(0, card.file_name_buffer);
-        card.card_result = CARDCreate(0, card.file_name_buffer, card.sector_size, &card.card_info);
+        card.card_result = CARDCreate(0, card.file_name_buffer, file_size, &card.card_info);
         if (card.card_result == Ready || card.card_result == Exist) {
             card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
             if (card.card_result == Ready) {
