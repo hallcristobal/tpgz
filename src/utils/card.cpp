@@ -12,6 +12,7 @@ namespace Utilities {
     int32_t card_write(CardInfo* card_info, void* data, int32_t size, int32_t offset, int32_t sector_size) {
         uint8_t* buf = (uint8_t*)tp_memalign(-32, sector_size);
         int32_t result = Ready;
+        int32_t read_bytes = 0;
 
         while (result == Ready && size > 0) {
             result = CARDRead(card_info, buf, sector_size, (offset & ~(sector_size - 1)));
@@ -19,8 +20,9 @@ namespace Utilities {
                 break;
             }
             int32_t rem_size = sector_size - (offset & (sector_size - 1));
-            tp_memcpy(buf + (offset & (sector_size - 1)), data, MIN(rem_size, size));
+            tp_memcpy(buf + (offset & (sector_size - 1)), (void*)((uint32_t)data + read_bytes), MIN(rem_size, size));
             result = CARDWrite(card_info, buf, sector_size, (offset & ~(sector_size - 1)));
+            read_bytes += MIN(rem_size, size);
             size -= rem_size;
             offset += rem_size;
         }
@@ -34,6 +36,7 @@ namespace Utilities {
     int32_t card_read(CardInfo* card_info, void* data, int32_t size, int32_t offset, int32_t sector_size) {
         uint8_t* buf = (uint8_t*)tp_memalign(-32, sector_size);
         int32_t result = Ready;
+        int32_t read_bytes = 0;
 
         while (result == Ready && size > 0) {
             result = CARDRead(card_info, buf, sector_size, (offset & ~(sector_size - 1)));
@@ -41,7 +44,8 @@ namespace Utilities {
                 break;
             }
             int32_t rem_size = sector_size - (offset & (sector_size - 1));
-            tp_memcpy(data, buf + (offset & (sector_size - 1)), MIN(rem_size, size));
+            tp_memcpy((void*)((uint32_t)data + read_bytes), buf + (offset & (sector_size - 1)), MIN(rem_size, size));
+            read_bytes += MIN(rem_size, size);
             size -= rem_size;
             offset += rem_size;
         }
