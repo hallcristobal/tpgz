@@ -1,17 +1,24 @@
 #include "utils/draw.h"
+#include "utils/texture.h"
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/addrs.h"
 #include "gcn_c/include/gfx.h"
 
 #define DEFAULT_WIDTH 0x06
 
-GXTexObj _blankTexObj;
-const char _blank_tex_data[1] __attribute__ ((aligned (32))) = {0xff};
+Texture blankTex;
+Texture folderTex;
 
 namespace Draw {
     void init() {
-        tp_memset(&_blankTexObj, 0x0, sizeof(GXTexObj));
-        GX_InitTexObj(&_blankTexObj, (void*)_blank_tex_data, 1, 1, GX_TF_I8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+        int32_t code = load_texture("tpgz/tex/blank.tex", &blankTex);
+        if (code != TexCode::TEX_OK) {
+            tp_osReport("Could not load blank texture (Code: %d)", code);
+        }
+        code = load_texture("tpgz/tex/folder_full.tex", &folderTex);
+        if (code != TexCode::TEX_OK) {
+            tp_osReport("Could not load folder texture (Code: %d)", code);
+        }
     }
 
     void begin(uint16_t n) {
@@ -19,7 +26,7 @@ namespace Draw {
     }
 
     void begin(uint16_t n, uint8_t primitive) {
-        GX_LoadTexObj(&_blankTexObj, (uint8_t)GX_TEXMAP0);
+        GX_LoadTexObj(&blankTex._texObj, (uint8_t)GX_TEXMAP0);
         GX_Begin(primitive, GX_VTXFMT0, n);
     }
 
@@ -28,7 +35,7 @@ namespace Draw {
     }
 
     void begin_outline(uint16_t n, uint8_t width) {
-        GX_LoadTexObj(&_blankTexObj, (uint8_t)GX_TEXMAP0);
+        GX_LoadTexObj(&blankTex._texObj, (uint8_t)GX_TEXMAP0);
         GX_SetLineWidth(width, GX_TO_ZERO);
         GX_Begin(GX_LINESTRIP, GX_VTXFMT0, n);
     }

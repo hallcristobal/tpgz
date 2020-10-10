@@ -19,6 +19,13 @@ base = "0x8046_0000"
 libs = ["tpgz.a", "external/libtp_c/libtp_c.a", "external/gcn_c/gcn_c.a"]
 
 [files]
+"tpgz/tex/file.tex" = "res/tex/file.tex"
+"tpgz/tex/folder_empty.tex" = "res/tex/folder_empty.tex"
+"tpgz/tex/folder_full.tex" = "res/tex/folder_full.tex"
+"tpgz/tex/blank.tex" = "res/tex/blank.tex"
+"tpgz/tex/test.tex" = "res/tex/test.tex"
+"tpgz/tex/emote.tex" = "res/tex/emote.tex"
+"tpgz/tex/sword.tex" = "res/tex/sword.tex"
 "tpgz/save_files/any.bin" = "res/save_files/any.bin"
 "tpgz/save_files/any/aeralfos_skip.bin" = "res/save_files/any/aeralfos_skip.bin"
 "tpgz/save_files/any/boss_bug.bin" = "res/save_files/any/boss_bug.bin"

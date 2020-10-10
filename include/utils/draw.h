@@ -3,9 +3,10 @@
 #include "libtp_c/include/utils.h"
 #include "libtp_c/include/addrs.h"
 #include "gcn_c/include/gfx.h"
+#include "utils/texture.h"
 
-extern GXTexObj _blankTexObj;
-extern const char _blank_tex_data[1];
+extern Texture blankTex;
+extern Texture folderTex;
 
 namespace Draw {
     void init();
