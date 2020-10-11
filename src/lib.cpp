@@ -2,6 +2,7 @@
 #include "libtp_c/include/tp.h"
 #include "utils/hook.h"
 #include "utils/link.hpp"
+#include "utils/lines.hpp"
 #include "utils/memory.hpp"
 #include "utils/card.hpp"
 #include "fonts/consolas.h"
@@ -34,6 +35,7 @@ void init() {
     default_font = Font(f_Consolas, consolas_bytes);
     PosSettingsMenu::initDefaults();
     Draw::init();
+    Utilities::init_lines();
     fifo_visible = true;
 }
 

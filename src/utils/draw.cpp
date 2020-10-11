@@ -15,10 +15,6 @@ namespace Draw {
         if (code != TexCode::TEX_OK) {
             tp_osReport("Could not load blank texture (Code: %d)", code);
         }
-        code = load_texture("tpgz/tex/folder_full.tex", &folderTex);
-        if (code != TexCode::TEX_OK) {
-            tp_osReport("Could not load folder texture (Code: %d)", code);
-        }
     }
 
     void begin(uint16_t n) {
@@ -26,7 +22,15 @@ namespace Draw {
     }
 
     void begin(uint16_t n, uint8_t primitive) {
-        GX_LoadTexObj(&blankTex._texObj, (uint8_t)GX_TEXMAP0);
+        begin(n, primitive, &blankTex._texObj);
+    }
+
+    void begin(uint16_t n, GXTexObj* tex) {
+        begin(n, GX_TRIANGLESTRIP, tex);
+    }
+
+    void begin(uint16_t n, uint8_t primitive, GXTexObj* tex) {
+        GX_LoadTexObj(tex, (uint8_t)GX_TEXMAP0);
         GX_Begin(primitive, GX_VTXFMT0, n);
     }
 
@@ -55,7 +59,11 @@ namespace Draw {
     }
 
     void draw_quad(uint32_t color, Vec2 p[4]) {
-        begin(4);
+        draw_quad(color, p, &blankTex._texObj);
+    }
+
+    void draw_quad(uint32_t color, Vec2 p[4], GXTexObj* texture) {
+        begin(4, texture);
             add_vertex(color, p[0], {0.0, 0.0});
             add_vertex(color, p[1], {1.0, 0.0});
             add_vertex(color, p[3], {0.0, 1.0});
@@ -78,12 +86,16 @@ namespace Draw {
     }
 
     void draw_rect(uint32_t color, Vec2 pos, Vec2 dim) {
+        draw_rect(color, pos, dim, &blankTex._texObj);
+    }
+
+    void draw_rect(uint32_t color, Vec2 pos, Vec2 dim, GXTexObj* texture) {
         Vec2 vertices[4] = {
             {pos.x, pos.y},
             {pos.x + dim.x, pos.y},
             {pos.x + dim.x, pos.y + dim.y},
             {pos.x, pos.y + dim.y}};
-        draw_quad(color, vertices);
+        draw_quad(color, vertices, texture);
     }
 
     void draw_rect_outline(uint32_t color, Vec2 pos, Vec2 dim) {

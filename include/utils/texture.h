@@ -3,11 +3,11 @@
 #include <stdint.h>
 
 enum TexCode {
-    TEX_OK = 0,
-    TEX_ERR_FILE = -1,
-    TEX_ERR_READ = -2,
-    TEX_ERR_INVALID_FORMAT = -3,
-    TEX_ERR_MEM = -4,
+    TEX_OK = 0,                     /*<@brief Texture loaded successfully */
+    TEX_ERR_FILE = -1,              /*<@brief Could not open texture file */
+    TEX_ERR_READ = -2,              /*<@brief Error occured while reading the texture file */
+    TEX_ERR_INVALID_FORMAT = -3,    /*<@brief The number of channels in the texture file is not supported */
+    TEX_ERR_MEM = -4,               /*<@brief Not enough memory to load the texture */
 };
 
 struct TexHeader {
@@ -21,12 +21,20 @@ struct Texture {
     TexHeader header;
     uint8_t* data;
     GXTexObj _texObj;
+    bool isLoaded;
 };
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+/**
+ * @brief Loads a texture from a file on the DVD.
+ * 
+ * @param[in] path Path to the texture file on the DVD.
+ * @param[out] tex Texture object containing the fetched texture.
+ * @returns A TexCode code signaling the success/failure of the loading.
+ */
 int32_t load_texture(const char* path, Texture* tex);
 void free_texture(Texture* tex);
 

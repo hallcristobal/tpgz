@@ -33,13 +33,6 @@ int32_t dvd_read(DVDFileInfo* file_info, void* data, int32_t size, int32_t offse
     return read_bytes;
 }
 
-/**
- * @brief Loads a texture from a file on the DVD.
- * 
- * @param[in] path Path to the texture file on the DVD.
- * @param[out] tex Texture object containing the fetched texture.
- * @returns A TexCode code signaling the success/failure of the loading.
- */
 int32_t load_texture(const char* path, Texture* tex) {
     DVDFileInfo fileInfo;
     int32_t readsize;
@@ -52,8 +45,6 @@ int32_t load_texture(const char* path, Texture* tex) {
         DVDClose(&fileInfo);
         return TexCode::TEX_ERR_READ;
     }
-    tp_osReport("load_texture: nb channels = %d", tex->header.channels);
-    tp_osReport("sizes: %d %d", tex->header.width, tex->header.height);
 
     uint8_t fmt = GX_TF_I8;
     switch (tex->header.channels) {
@@ -62,7 +53,7 @@ int32_t load_texture(const char* path, Texture* tex) {
             break;
         }
         case 2: {
-            fmt = GX_TF_RGB565;
+            fmt = GX_TF_RGB565; // Doesn't work atm
         }
         case 4: {
             fmt = GX_TF_RGBA8;
@@ -81,7 +72,7 @@ int32_t load_texture(const char* path, Texture* tex) {
         return TexCode::TEX_ERR_MEM;
     }
 
-    if (dvd_read(&fileInfo, tex->data, size, sizeof(tex->header)) < (int32_t)size) {
+    if (DVDReadPrio(&fileInfo, tex->data, size, sizeof(tex->header), 2) < (int32_t)size) {
         tp_free(tex->data);
         DVDClose(&fileInfo);
         return TexCode::TEX_ERR_READ;
@@ -90,6 +81,7 @@ int32_t load_texture(const char* path, Texture* tex) {
 
     tp_memset(&tex->_texObj, 0, sizeof(GXTexObj));
     GX_InitTexObj(&tex->_texObj, tex->data, tex->header.width, tex->header.height, fmt, GX_CLAMP, GX_CLAMP, GX_FALSE);
+    tex->isLoaded = true;
     return TexCode::TEX_OK;
 }
 

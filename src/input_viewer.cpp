@@ -121,17 +121,5 @@ namespace InputViewer {
         font.gz_renderChars(c_x, pos.x + 45.f, pos.y + 65.f, 0xFFD138FF, g_drop_shadows);
         font.gz_renderChars(c_y, pos.x + 70.f, pos.y + 65.f, 0xFFD138FF, g_drop_shadows);
 
-        Vec2 vertices[4] = {
-            {0, 0},
-            {100, 0},
-            {100, 100},
-            {0, 100}};
-        GX_LoadTexObj(&folderTex._texObj, (uint8_t)GX_TEXMAP0);
-        GX_Begin(GX_TRIANGLESTRIP, GX_VTXFMT0, 4);
-            Draw::add_vertex(0xFFFFFFFF, vertices[0], {0.0, 0.0});
-            Draw::add_vertex(0xFFFFFFFF, vertices[1], {1.0, 0.0});
-            Draw::add_vertex(0xFFFFFFFF, vertices[3], {0.0, 1.0});
-            Draw::add_vertex(0xFFFFFFFF, vertices[2], {1.0, 1.0});
-        Draw::end();
     }
 }  // namespace InputViewer

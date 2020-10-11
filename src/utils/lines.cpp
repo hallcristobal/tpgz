@@ -1,14 +1,29 @@
 #include "utils/lines.hpp"
+#include "libtp_c/include/system.h"
 #include "menus/position_settings_menu.h"
 #include "menus/settings_menu.h"
+#include "utils/texture.h"
+#include "utils/draw.h"
 
 int cursor_rgba;
+Texture gzIconTex;
 
 namespace Utilities {
+    void init_lines() {
+        int32_t code = load_texture("tpgz/tex/tpgz.tex", &gzIconTex);
+        if (code != TexCode::TEX_OK) {
+            tp_osReport("Could not load TPGZ's icon texture (Code: %d)", code);
+        }
+    }
+
     void render_lines(Font &font, Line input_lines[], int cursor, int LINES, float menu_toggle_switch_x_offset) {
         float x_offset = sprite_offsets[MENU_INDEX].x;
         float y_offset = 0.0f;
-		font.gz_renderChars("tpgz v0.1a", x_offset, 25.0f, cursor_rgba, g_drop_shadows);
+		font.gz_renderChars("tpgz v0.1a", x_offset + 35.0f, 25.0f, cursor_rgba, g_drop_shadows);
+
+        if (gzIconTex.isLoaded) {
+            Draw::draw_rect(0xFFFFFFFF, {x_offset, 5.0f}, {30, 30}, &gzIconTex._texObj);
+        }
 
         for (int i = 0; i < LINES; i++) {
             // don't draw past line 15/cursor
