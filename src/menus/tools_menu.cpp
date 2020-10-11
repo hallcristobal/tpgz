@@ -1,7 +1,7 @@
 #include "libtp_c/include/actor.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
-#include "menu.h"
+#include "menus/tools_menu.h"
 #include "input_viewer.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
@@ -21,7 +21,6 @@ int g_tunic_color;
 uint8_t tunic_color_index = 0;
 bool init_once = false;
 bool g_tunic_color_flag;
-bool tools_visible;
 
 Tool ToolItems[TOOL_AMNT] = {
     {RELOAD_AREA_INDEX, false},
@@ -58,8 +57,7 @@ Line lines[LINES] = {
 
 void ToolsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
-        tools_visible = false;
-        mm_visible = true;
+		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         init_once = false;
         return;
     };
@@ -159,7 +157,8 @@ void ToolsMenu::render(Font& font) {
                     break;
                 }
                 case MOVE_LINK_INDEX: {
-                    move_link_active = true;
+                    Commands::enable_command(Commands::MOVE_LINK);
+                    move_link_active = false;
 				}
             }
         } else {
@@ -202,6 +201,7 @@ void ToolsMenu::render(Font& font) {
                     break;
                 }
                 case MOVE_LINK_INDEX: {
+                    Commands::disable_command(Commands::MOVE_LINK);
                     move_link_active = false;
                 }
             }

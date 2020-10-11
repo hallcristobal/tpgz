@@ -1,10 +1,12 @@
 #include "commands.h"
-#include "menu.h"
+#include "menus/practice_menu.h"
+#include "menus/settings_menu.h"
 #include "save_injector.h"
 #include "timer.h"
 #include "gorge.h"
 #include "fs.h"
 #include "free_cam.h"
+#include "movelink.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
@@ -87,13 +89,19 @@ namespace Commands {
         }
     }
 
+    void toggle_move_link() {
+        if (button_this_frame == 0x0860 && button_last_frame != 0x0860) {
+            move_link_active = !move_link_active;
+        }
+    }
+
     struct Command {
         bool active;
         uint16_t buttons;
         void (*command)();
     };
 
-    static Command Commands[8] = {
+    static Command Commands[9] = {
         {false, 0x0028, store_position},
         {false, 0x0024, load_position},
         {false, 0x0120, moon_jump},
@@ -101,7 +109,8 @@ namespace Commands {
         {false, 0x0110, toggle_timer},
         {false, 0x0210, hit_reset},
         {false, 0x0050, gorge_void},
-        {false, 0x0310, toggle_free_cam}};
+        {false, 0x0310, toggle_free_cam},
+        {false, 0x0860, toggle_move_link}};
 
     void process_inputs() {
         button_this_frame = tp_mPadStatus.sval;

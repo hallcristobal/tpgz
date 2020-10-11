@@ -12,7 +12,8 @@ namespace Commands {
         TIMER_TOGGLE = 4,
         TIMER_RESET = 5,
         GORGE_VOID = 6,
-        FREE_CAM = 7
+        FREE_CAM = 7,
+		MOVE_LINK = 8
     };
 
     void process_inputs();
