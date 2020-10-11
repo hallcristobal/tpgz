@@ -6,7 +6,6 @@
 #include "utils/texture.h"
 
 extern Texture blankTex;
-extern Texture folderTex;
 
 namespace Draw {
     void init();

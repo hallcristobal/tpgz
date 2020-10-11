@@ -120,6 +120,5 @@ namespace InputViewer {
         font.gz_renderChars(control_y, pos.x + 23.f, pos.y + 65.f, 0xFFFFFFFF, g_drop_shadows);
         font.gz_renderChars(c_x, pos.x + 45.f, pos.y + 65.f, 0xFFD138FF, g_drop_shadows);
         font.gz_renderChars(c_y, pos.x + 70.f, pos.y + 65.f, 0xFFD138FF, g_drop_shadows);
-
     }
 }  // namespace InputViewer

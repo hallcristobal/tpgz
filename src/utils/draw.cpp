@@ -7,7 +7,6 @@
 #define DEFAULT_WIDTH 0x06
 
 Texture blankTex;
-Texture folderTex;
 
 namespace Draw {
     void init() {
