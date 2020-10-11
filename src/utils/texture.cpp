@@ -38,12 +38,14 @@ int32_t load_texture(const char* path, Texture* tex) {
     int32_t readsize;
 
     if(!DVDOpen(path, &fileInfo)) {
-        return TexCode::TEX_ERR_FILE;
+        tex->loadCode = TexCode::TEX_ERR_FILE;
+        return tex->loadCode;
     }
     readsize = dvd_read(&fileInfo, &tex->header, sizeof(TexHeader), 0);
     if (readsize < (int32_t)sizeof(TexHeader)) {
         DVDClose(&fileInfo);
-        return TexCode::TEX_ERR_READ;
+        tex->loadCode = TexCode::TEX_ERR_READ;
+        return tex->loadCode;
     }
 
     uint8_t fmt = GX_TF_I8;
@@ -61,7 +63,8 @@ int32_t load_texture(const char* path, Texture* tex) {
         }
         default: {
             DVDClose(&fileInfo);
-            return TexCode::TEX_ERR_INVALID_FORMAT;
+            tex->loadCode = TexCode::TEX_ERR_INVALID_FORMAT;
+            return tex->loadCode;
         }
     }
 
@@ -69,25 +72,29 @@ int32_t load_texture(const char* path, Texture* tex) {
     tex->data = (uint8_t*)tp_memalign(-32, size);
     if (tex->data == nullptr) {
         DVDClose(&fileInfo);
-        return TexCode::TEX_ERR_MEM;
+        tex->loadCode = TexCode::TEX_ERR_MEM;
+        return tex->loadCode;
     }
 
     if (DVDReadPrio(&fileInfo, tex->data, size, sizeof(tex->header), 2) < (int32_t)size) {
         tp_free(tex->data);
         DVDClose(&fileInfo);
-        return TexCode::TEX_ERR_READ;
+        tex->loadCode = TexCode::TEX_ERR_READ;
+        return tex->loadCode;
     }
     DVDClose(&fileInfo);
 
     tp_memset(&tex->_texObj, 0, sizeof(GXTexObj));
     GX_InitTexObj(&tex->_texObj, tex->data, tex->header.width, tex->header.height, fmt, GX_CLAMP, GX_CLAMP, GX_FALSE);
-    tex->isLoaded = true;
-    return TexCode::TEX_OK;
+    tex->loadCode = TexCode::TEX_OK;
+    return tex->loadCode;
 }
 
 void free_texture(Texture* tex) {
     tp_free(tex->data);
-    tex->isLoaded = false;
+    tp_memset(tex, 0, sizeof(Texture));
+    // The next line is redundant, but is still there for good measure
+    tex->loadCode = TexCode::TEX_UNLOADED;
 }
 
 #ifdef __cplusplus

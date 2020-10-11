@@ -10,9 +10,9 @@ Texture blankTex;
 
 namespace Draw {
     void init() {
-        int32_t code = load_texture("tpgz/tex/blank.tex", &blankTex);
-        if (code != TexCode::TEX_OK) {
-            tp_osReport("Could not load blank texture (Code: %d)", code);
+        load_texture("tpgz/tex/blank.tex", &blankTex);
+        if (blankTex.loadCode != TexCode::TEX_OK) {
+            tp_osReport("Could not load blank texture (Code: %d)", blankTex.loadCode);
         }
     }
 

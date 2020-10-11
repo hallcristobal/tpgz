@@ -9,19 +9,19 @@ int cursor_rgba;
 Texture gzIconTex;
 
 namespace Utilities {
-    void init_lines() {
-        int32_t code = load_texture("tpgz/tex/tpgz.tex", &gzIconTex);
-        if (code != TexCode::TEX_OK) {
-            tp_osReport("Could not load TPGZ's icon texture (Code: %d)", code);
-        }
-    }
-
     void render_lines(Font &font, Line input_lines[], int cursor, int LINES, float menu_toggle_switch_x_offset) {
         float x_offset = sprite_offsets[MENU_INDEX].x;
         float y_offset = 0.0f;
 		font.gz_renderChars("tpgz v0.1a", x_offset + 35.0f, 25.0f, cursor_rgba, g_drop_shadows);
 
-        if (gzIconTex.isLoaded) {
+        if (gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
+            load_texture("tpgz/tex/tpgz.tex", &gzIconTex);
+            if (gzIconTex.loadCode != TexCode::TEX_OK) {
+                tp_osReport("Could not load TPGZ's icon texture (Code: %d)", gzIconTex.loadCode);
+            }
+        }
+
+        if (gzIconTex.loadCode == TexCode::TEX_OK) {
             Draw::draw_rect(0xFFFFFFFF, {x_offset, 5.0f}, {30, 30}, &gzIconTex._texObj);
         }
 
