@@ -87,6 +87,7 @@ int32_t load_texture(const char* path, Texture* tex) {
 
 void free_texture(Texture* tex) {
     tp_free(tex->data);
+    tex->isLoaded = false;
 }
 
 #ifdef __cplusplus
