@@ -6,7 +6,6 @@
 #include "gorge.h"
 #include "fs.h"
 #include "free_cam.h"
-#include "movelink.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
@@ -15,6 +14,8 @@
 bool reload_area_flag = false;
 bool timer_started = false;
 bool reset_timer = false;
+
+bool commands_states[COMMANDS_AMNT];
 
 namespace Commands {
     static float saved_x = 0.0f;
@@ -96,21 +97,21 @@ namespace Commands {
     }
 
     struct Command {
-        bool active;
+        bool& active;
         uint16_t buttons;
         void (*command)();
     };
 
-    static Command Commands[9] = {
-        {false, 0x0028, store_position},
-        {false, 0x0024, load_position},
-        {false, 0x0120, moon_jump},
-        {false, 0x1160, reload_area},
-        {false, 0x0110, toggle_timer},
-        {false, 0x0210, hit_reset},
-        {false, 0x0050, gorge_void},
-        {false, 0x0310, toggle_free_cam},
-        {false, 0x0860, toggle_move_link}};
+    static Command Commands[COMMANDS_AMNT] = {
+        {commands_states[CMD_STORE_POSITION], 0x0028, store_position},
+        {commands_states[CMD_LOAD_POSITION], 0x0024, load_position},
+        {commands_states[CMD_MOON_JUMP], 0x0120, moon_jump},
+        {commands_states[CMD_RELOAD_AREA], 0x1160, reload_area},
+        {commands_states[CMD_TIMER_TOGGLE], 0x0110, toggle_timer},
+        {commands_states[CMD_TIMER_RESET], 0x0210, hit_reset},
+        {commands_states[CMD_GORGE_VOID], 0x0050, gorge_void},
+        {commands_states[CMD_FREE_CAM], 0x0310, toggle_free_cam},
+        {commands_states[CMD_MOVE_LINK], 0x0860, toggle_move_link}};
 
     void process_inputs() {
         button_this_frame = tp_mPadStatus.sval;

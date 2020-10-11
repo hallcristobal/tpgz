@@ -94,34 +94,34 @@ void ToolsMenu::render(Font& font) {
         if (ToolItems[cursor.y].active) {
             switch (cursor.y) {
                 case TIMER_INDEX: {
-                    Commands::enable_command(Commands::TIMER_TOGGLE);
-                    Commands::enable_command(Commands::TIMER_RESET);
+                    Commands::enable_command(Commands::CMD_TIMER_TOGGLE);
+                    Commands::enable_command(Commands::CMD_TIMER_RESET);
                     break;
                 }
                 case LOAD_TIMER_INDEX: {
-                    Commands::enable_command(Commands::TIMER_RESET);
+                    Commands::enable_command(Commands::CMD_TIMER_RESET);
                     break;
                 }
                 case IGT_TIMER_INDEX: {
-                    Commands::enable_command(Commands::TIMER_TOGGLE);
-                    Commands::enable_command(Commands::TIMER_RESET);
+                    Commands::enable_command(Commands::CMD_TIMER_TOGGLE);
+                    Commands::enable_command(Commands::CMD_TIMER_RESET);
                     break;
                 }
                 case GORGE_INDEX: {
                     if (ToolItems[GORGE_INDEX].active) {
-                        Commands::enable_command(Commands::GORGE_VOID);
+                        Commands::enable_command(Commands::CMD_GORGE_VOID);
                     } else {
-                        Commands::disable_command(Commands::GORGE_VOID);
+                        Commands::disable_command(Commands::CMD_GORGE_VOID);
                     }
                     break;
                 }
                 case TELEPORT_INDEX: {
-                    Commands::enable_command(Commands::STORE_POSITION);
-                    Commands::enable_command(Commands::LOAD_POSITION);
+                    Commands::enable_command(Commands::CMD_STORE_POSITION);
+                    Commands::enable_command(Commands::CMD_LOAD_POSITION);
                     break;
                 }
                 case RELOAD_AREA_INDEX: {
-                    Commands::enable_command(Commands::RELOAD_AREA);
+                    Commands::enable_command(Commands::CMD_RELOAD_AREA);
                     break;
                 }
                 case FAST_MOVEMENT_INDEX: {
@@ -152,24 +152,24 @@ void ToolsMenu::render(Font& font) {
                     break;
                 }
                 case FREE_CAM_INDEX: {
-                    Commands::enable_command(Commands::FREE_CAM);
+                    Commands::enable_command(Commands::CMD_FREE_CAM);
                     free_cam_active = false;
                     break;
                 }
                 case MOVE_LINK_INDEX: {
-                    Commands::enable_command(Commands::MOVE_LINK);
+                    Commands::enable_command(Commands::CMD_MOVE_LINK);
                     move_link_active = false;
 				}
             }
         } else {
             switch (cursor.y) {
                 case TELEPORT_INDEX: {
-                    Commands::disable_command(Commands::STORE_POSITION);
-                    Commands::disable_command(Commands::LOAD_POSITION);
+                    Commands::disable_command(Commands::CMD_STORE_POSITION);
+                    Commands::disable_command(Commands::CMD_LOAD_POSITION);
                     break;
                 }
                 case RELOAD_AREA_INDEX: {
-                    Commands::disable_command(Commands::RELOAD_AREA);
+                    Commands::disable_command(Commands::CMD_RELOAD_AREA);
                     break;
                 }
                 case FAST_MOVEMENT_INDEX: {
@@ -196,12 +196,12 @@ void ToolsMenu::render(Font& font) {
                     break;
                 }
                 case FREE_CAM_INDEX: {
-                    Commands::disable_command(Commands::FREE_CAM);
+                    Commands::disable_command(Commands::CMD_FREE_CAM);
                     free_cam_active = false;
                     break;
                 }
                 case MOVE_LINK_INDEX: {
-                    Commands::disable_command(Commands::MOVE_LINK);
+                    Commands::disable_command(Commands::CMD_MOVE_LINK);
                     move_link_active = false;
                 }
             }
