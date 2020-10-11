@@ -6,6 +6,7 @@
 #include "gorge.h"
 #include "fs.h"
 #include "free_cam.h"
+#include "movelink.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
