@@ -77,9 +77,7 @@ namespace Commands {
     void reload_area() {
         inject_save_flag = true;
         if (g_area_reload_behavior == LOAD_AREA) {
-            tp_gameInfo.spawn_speed = 0.0f;
             tp_gameInfo.loading_animation = 13;  // instant load
-            tp_gameInfo.respawn_animation = 0;
             tp_gameInfo.warp.entrance.void_flag = 0;
             practice_file.inject_options_before_load = nullptr;
             practice_file.inject_options_during_load = nullptr;
