@@ -13,6 +13,7 @@
 
 #define MAX_FLAGS 0x20 
 #define WHITE_RGBA 0xFFFFFFFF
+#define LINES 8
 
 static Cursor cursor = { 0, 0 };
 bool init_once = false;
@@ -23,26 +24,26 @@ uint8_t bit_index = 0;
 Texture gzFlagOnTex;
 Texture gzFlagOffTex;
 
-AreaNode DungeonFlags[MAX_FLAGS] = {};
+AreaNode TempFlags[MAX_FLAGS] = {};
 
 void render_area_flags(Font& font, Cursor cursor) {
 	for (uint8_t i = 0; i < MAX_FLAGS; i++) {
 		float y_offset;
         #define LINE_X_OFFSET 20.0f
 
-		// don't draw past line 6/cursor
-		if (i > 6 && cursor.y < i) {
-			font.gz_renderChars("______", LINE_X_OFFSET, 210.0f, 0xFFFFFF80, g_drop_shadows);
+		// don't draw past max lines/cursor
+		if (i > LINES && cursor.y < i) {
+			font.gz_renderChars("______", LINE_X_OFFSET, 250.0f, 0xFFFFFF80, g_drop_shadows);
 			continue;
 		};
 
 		// initiate scroll
-		if (cursor.y > 6) {
-			if (i < (cursor.y - 6)) {
+		if (cursor.y > LINES) {
+			if (i < (cursor.y - LINES)) {
 				continue;
 			}
 			else {
-				y_offset = ((80.0f) + (i - (cursor.y - 6)) * 20.0f);
+				y_offset = ((80.0f) + (i - (cursor.y - LINES)) * 20.0f);
 			}
 		}
 		// normal line rendering offset
@@ -51,18 +52,18 @@ void render_area_flags(Font& font, Cursor cursor) {
 		}
 		
 
-		DungeonFlags[i].offset = i;
-		DungeonFlags[i].bit[0] = (tp_gameInfo.temp_flags.flags[i] & (1 << 0));
-		DungeonFlags[i].bit[1] = (tp_gameInfo.temp_flags.flags[i] & (1 << 1));
-		DungeonFlags[i].bit[2] = (tp_gameInfo.temp_flags.flags[i] & (1 << 2));
-		DungeonFlags[i].bit[3] = (tp_gameInfo.temp_flags.flags[i] & (1 << 3));
-		DungeonFlags[i].bit[4] = (tp_gameInfo.temp_flags.flags[i] & (1 << 4));
-		DungeonFlags[i].bit[5] = (tp_gameInfo.temp_flags.flags[i] & (1 << 5));
-		DungeonFlags[i].bit[6] = (tp_gameInfo.temp_flags.flags[i] & (1 << 6));
-		DungeonFlags[i].bit[7] = (tp_gameInfo.temp_flags.flags[i] & (1 << 7));
+		TempFlags[i].offset = i;
+		TempFlags[i].bit[0] = (tp_gameInfo.temp_flags.flags[i] & (1 << 0));
+		TempFlags[i].bit[1] = (tp_gameInfo.temp_flags.flags[i] & (1 << 1));
+		TempFlags[i].bit[2] = (tp_gameInfo.temp_flags.flags[i] & (1 << 2));
+		TempFlags[i].bit[3] = (tp_gameInfo.temp_flags.flags[i] & (1 << 3));
+		TempFlags[i].bit[4] = (tp_gameInfo.temp_flags.flags[i] & (1 << 4));
+		TempFlags[i].bit[5] = (tp_gameInfo.temp_flags.flags[i] & (1 << 5));
+		TempFlags[i].bit[6] = (tp_gameInfo.temp_flags.flags[i] & (1 << 6));
+		TempFlags[i].bit[7] = (tp_gameInfo.temp_flags.flags[i] & (1 << 7));
         
 		for (uint8_t j = 0; j < 8; j++){
-            if(DungeonFlags[i].bit[j] == true){
+            if(TempFlags[i].bit[j] == true){
                 Draw::draw_rect(0xFFFFFFFF, {210.0f - (j * 20.0f), y_offset - 13.0f}, {16, 16}, &gzFlagOnTex._texObj);
 		    }
 		    else{
@@ -72,9 +73,9 @@ void render_area_flags(Font& font, Cursor cursor) {
 		
 		char offset[6];
 
-		sprintf(offset, "0x%02X:", DungeonFlags[i].offset);
+		sprintf(offset, "0x%02X:", TempFlags[i].offset);
 
-		if (DungeonFlags[i].line_selected) {
+		if (TempFlags[i].line_selected) {
             if (button_is_pressed(Controller::DPAD_RIGHT)) {
 			    if (bit_index == 0) {
 				    bit_index = 7;
@@ -136,10 +137,10 @@ void render_area_flags(Font& font, Cursor cursor) {
 	}
 }
 
-bool check_offset_line_selected(AreaNode DungeonFlags[]) {
+bool check_offset_line_selected(AreaNode TempFlags[]) {
     bool return_value = false;
     for (int i = 0; i < MAX_FLAGS; i++) {
-        if (DungeonFlags[i].line_selected) {
+        if (TempFlags[i].line_selected) {
             return_value = true;
         }
     }
@@ -149,11 +150,11 @@ bool check_offset_line_selected(AreaNode DungeonFlags[]) {
 
 void TempFlagsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
-        if (check_offset_line_selected(DungeonFlags)) {
+        if (check_offset_line_selected(TempFlags)) {
             for (int i = 0; i < MAX_FLAGS; i++) {
-                DungeonFlags[i].line_selected = false;
+                TempFlags[i].line_selected = false;
             }
-            DungeonFlags[cursor.y].line_selected = false;
+            TempFlags[cursor.y].line_selected = false;
             lock_cursor_y = false;
         } else {
             init_once = false;
@@ -176,8 +177,8 @@ void TempFlagsMenu::render(Font& font) {
         init_once = true;
     } 
 
-    if (!DungeonFlags[cursor.y].line_selected && current_input == 256 && a_held == false) {
-        DungeonFlags[cursor.y].line_selected = true;
+    if (!TempFlags[cursor.y].line_selected && current_input == 256 && a_held == false) {
+        TempFlags[cursor.y].line_selected = true;
 		current_input = 0;
         lock_cursor_y = true;
     }
