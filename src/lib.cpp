@@ -30,6 +30,8 @@ extern "C" {
 #define main_tampoline ((void(*)(void))0x803737b4)
 void apply_lib_hooks() {
     Hook::apply_hooks();
+    uint32_t *crashScreen = reinterpret_cast<uint32_t*>(0x8000B8A4);
+    *crashScreen = 0x48000014; // enable crash screen
     main_tampoline();
 }
 
@@ -58,6 +60,7 @@ void game_loop() {
     }
     if (tp_fopScnRq.isLoading == 1) {
         MenuRendering::close_active_menus();
+        move_link_active = false;
     }
 
     GZFlags::apply_active_flags();
