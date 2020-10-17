@@ -4,7 +4,7 @@
 
 //extern char _consolas_start;
 //extern char _consolas_end;
-extern char consolas_bytes[];
+extern char font_bytes[];
 
 const static _Font f_Consolas {
     256.0, 256.0, 18.0, 9.896484,

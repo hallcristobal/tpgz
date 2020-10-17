@@ -31,7 +31,7 @@ void apply_lib_hooks() {
 }
 
 void init() {
-    default_font = Font(f_Consolas, consolas_bytes);
+    default_font = Font(f_Consolas, font_bytes);
     PosSettingsMenu::initDefaults();
     Draw::init();
     fifo_visible = true;
@@ -64,7 +64,6 @@ void game_loop() {
 
 void draw() {
     default_font.setupRendering();
-    //Consolas.setupRendering();
     if (fifo_visible) {
         FIFOQueue::renderItems(Queue, default_font);
     }

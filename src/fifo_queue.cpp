@@ -5,7 +5,6 @@
 #include "menus/position_settings_menu.h"
 #include <string.h>
 
-static Font Consolas;
 bool fifo_visible;
 
 void FIFOQueue::renderItems(_FIFOQueue& Queue, Font& font) {

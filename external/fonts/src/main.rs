@@ -39,14 +39,14 @@ fn main() {
     {
         fs::create_dir_all(&output).unwrap(); 
 
-        let mut f = fs::File::create(output.join("consolas.c")).unwrap();
+        let mut f = fs::File::create(output.join(font_name.to_lowercase()+".c")).unwrap();
 
         let mut idx = 0;
         for byte in font.data {
             if idx == 0 {
                 write!(
                     f,
-                    "const char consolas_bytes[]  __attribute__ ((aligned (32))) = {{\n    0x{:X}",
+                    "const char font_bytes[]  __attribute__ ((aligned (32))) = {{\n    0x{:X}",
                     byte
                 )
                 .unwrap();
@@ -70,7 +70,7 @@ fn main() {
 
 //extern char _{}_start;
 //extern char _{}_end;
-extern char {}_bytes[];
+extern char font_bytes[];
 
 const static _Font f_{} {{
     {}.0, {}.0, {:?}, {:?},
@@ -78,7 +78,6 @@ const static _Font f_{} {{
 "#,
             font_name.to_uppercase(),
             font_name.to_uppercase(),
-            font_name.to_lowercase(),
             font_name.to_lowercase(),
             font_name.to_lowercase(),
             font_name,
