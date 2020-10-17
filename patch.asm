@@ -12,3 +12,7 @@ b apply_lib_hooks
 0x803737b4:
 u32 0x9421fff0 ; stwu r1,-0x10(r1)  ; First instruction from original main()
 u32 0x4BC92CA0 ; b main() + 4       ; branch to second instruction of main()
+
+; Enable debug crash screen
+0x8000b8a4:
+u32 0x48000014
