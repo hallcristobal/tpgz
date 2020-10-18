@@ -33,7 +33,7 @@ void apply_lib_hooks() {
 }
 
 void init() {
-    Font::load_font("tpgz/fonts/lib-sans.fnt");
+    Font::load_font("tpgz/fonts/consola.fnt");
     PosSettingsMenu::initDefaults();
     Draw::init();
     fifo_visible = true;
