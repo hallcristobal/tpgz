@@ -32,9 +32,9 @@ if __name__ == "__main__":
     image = Image.open(params.image_file).convert('RGBA')
     if not params.resize is None:
         image = image.resize(params.resize)
-    if image.width % 4 != 0 or image.height % 4 != 0:
-        raise RuntimeError("image size has to be a multiple of 4")
-    if params.format == "CMPR" and (image.width % 8 != 0 and image.height % 8 != 0):
-        raise RuntimeError("image size has to be a multiple of 8 when using CMPR")
+    if params.format in ["RGBA8"] and (image.width % 4 != 0 or image.height % 4 != 0):
+        raise RuntimeError("image size has to be a multiple of 4 when using RGBA8")
+    if params.format in ["CMPR", "I8"] and (image.width % 8 != 0 and image.height % 8 != 0):
+        raise RuntimeError("image size has to be a multiple of 8 when using CMPR or I8 formats")
 
     write_tex(params.out_tex, image, Formats[params.format])

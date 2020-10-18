@@ -42,8 +42,10 @@ if __name__ == '__main__':
                         default='I8', help='Format to save the font in')
     params = parser.parse_args()
 
-    if params.size[0] % 8 != 0 and params.size[1] % 8 != 0:
-        raise RuntimeError("Size has to be a multiple of 8")
+    if params.format in ["RGBA8"] and (params.size[0] % 4 != 0 or params.size[1] % 4 != 0):
+        raise RuntimeError("Size has to be a multiple of 4 when using RGBA8")
+    if params.format in ["CMPR", "I8"] and (params.size[0] % 8 != 0 and params.size[1] % 8 != 0):
+        raise RuntimeError("Size has to be a multiple of 8 when using CMPR or I8 formats")
 
     image = Image.new('RGBA', params.size, (0,0,0,0))
     draw = ImageDraw.Draw(image)
@@ -64,7 +66,7 @@ if __name__ == '__main__':
         if pos[0] + glyph_width > params.size[0]:
             pos = (0, pos[1] + asc + dsc + 1)
         if pos[1] + asc + dsc > params.size[1]:
-            raise RuntimeError("The resolution is too small to fit all the glyphs!")
+            raise RuntimeError("The resolution is too small to fit all the glyphs! Try to reduce the font size")
 
         draw.text((pos[0] - bbox[0], pos[1]), chr(i), font=ftf, anchor="ls")
         glyphs[i]['offset'] = bbox[0]

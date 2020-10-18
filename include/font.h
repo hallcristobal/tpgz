@@ -7,7 +7,7 @@
 #include "utils/texture.h"
 
 #define MAX_GLYPHS 94
-#define DROP_SHADOWS_RGBA 0x00000060
+#define DROP_SHADOWS_RGBA 0x000000FF
 
 enum FontCode {
     FNT_OK = 1,                     /*<@brief Font loaded successfully */

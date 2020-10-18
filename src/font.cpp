@@ -113,15 +113,15 @@ void Font::renderChars(const char* str, float x, float y, uint32_t color, float 
 }
 
 void Font::gz_renderChar(char c, float x, float y, uint32_t color, bool drop_shadows, float size) {
-    renderChar(c, x, y, color, size);
     if (drop_shadows) {
         renderChar(c, x + 1.0f, y + 1.0f, DROP_SHADOWS_RGBA, size);
     }
+    renderChar(c, x, y, color, size);
 }
 
 void Font::gz_renderChars(const char* str, float x, float y, uint32_t color, bool drop_shadows, float size) {
-    renderChars(str, x, y, color, size);
     if (drop_shadows) {
         renderChars(str, x + 1.0f, y + 1.0f, DROP_SHADOWS_RGBA, size);
     }
+    renderChars(str, x, y, color, size);
 }
